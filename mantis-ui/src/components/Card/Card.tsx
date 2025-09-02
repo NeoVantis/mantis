@@ -1,7 +1,7 @@
 import React from 'react';
 import './Card.css';
 
-export interface CardProps {
+export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
   /** Card content */
   children: React.ReactNode;
   /** Card variant */

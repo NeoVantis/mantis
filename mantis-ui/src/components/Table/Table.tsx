@@ -1,10 +1,10 @@
 import React from 'react';
 import './Table.css';
 
-export interface TableColumn<T = any> {
+export interface TableColumn<T = Record<string, any>> {
   key: string;
   title: string;
-  dataIndex?: string;
+  dataIndex?: keyof T;
   render?: (value: any, record: T, index: number) => React.ReactNode;
   width?: string;
   align?: 'left' | 'center' | 'right';
@@ -12,13 +12,13 @@ export interface TableColumn<T = any> {
   fixed?: 'left' | 'right';
 }
 
-export interface TableProps<T = any> {
+export interface TableProps<T = Record<string, any>> {
   /** Table columns configuration */
   columns: TableColumn<T>[];
   /** Table data source */
   dataSource: T[];
   /** Row key field or function */
-  rowKey?: string | ((record: T) => string);
+  rowKey?: keyof T | ((record: T) => string);
   /** Whether table is loading */
   loading?: boolean;
   /** Whether table has borders */
@@ -46,10 +46,10 @@ export interface TableProps<T = any> {
   };
 }
 
-export const Table = <T extends any>({
+export const Table = <T extends Record<string, any> = Record<string, any>>({
   columns,
   dataSource,
-  rowKey = 'id',
+  rowKey = 'id' as keyof T,
   loading = false,
   bordered = false,
   hoverable = true,
@@ -65,7 +65,7 @@ export const Table = <T extends any>({
     if (typeof rowKey === 'function') {
       return rowKey(record);
     }
-    return record[rowKey] || index.toString();
+    return String(record[rowKey]) || index.toString();
   };
 
   const renderCell = (column: TableColumn<T>, record: T, index: number) => {
