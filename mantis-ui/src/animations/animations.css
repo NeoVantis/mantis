@@ -109,44 +109,44 @@
   }
 }
 
-/* Animation Classes */
-.mantis-animate-fade-in {
+/* Animation Classes - only active when mantis-animation-active is present */
+.mantis-animation-container.mantis-animation-active.mantis-animate-fade-in {
   animation: mantis-fade-in var(--mantis-transition-base) ease-out;
 }
 
-.mantis-animate-fade-out {
+.mantis-animation-container.mantis-animation-active.mantis-animate-fade-out {
   animation: mantis-fade-out var(--mantis-transition-base) ease-out;
 }
 
-.mantis-animate-slide-in-right {
+.mantis-animation-container.mantis-animation-active.mantis-animate-slide-in-right {
   animation: mantis-slide-in-right var(--mantis-transition-slow) ease-out;
 }
 
-.mantis-animate-slide-in-left {
+.mantis-animation-container.mantis-animation-active.mantis-animate-slide-in-left {
   animation: mantis-slide-in-left var(--mantis-transition-slow) ease-out;
 }
 
-.mantis-animate-slide-in-up {
+.mantis-animation-container.mantis-animation-active.mantis-animate-slide-in-up {
   animation: mantis-slide-in-up var(--mantis-transition-slow) ease-out;
 }
 
-.mantis-animate-slide-in-down {
+.mantis-animation-container.mantis-animation-active.mantis-animate-slide-in-down {
   animation: mantis-slide-in-down var(--mantis-transition-slow) ease-out;
 }
 
-.mantis-animate-scale-in {
+.mantis-animation-container.mantis-animation-active.mantis-animate-scale-in {
   animation: mantis-scale-in var(--mantis-transition-base) ease-out;
 }
 
-.mantis-animate-bounce {
+.mantis-animation-container.mantis-animation-active.mantis-animate-bounce {
   animation: mantis-bounce 1s;
 }
 
-.mantis-animate-pulse {
+.mantis-animation-container.mantis-animation-active.mantis-animate-pulse {
   animation: mantis-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.mantis-animate-spin {
+.mantis-animation-container.mantis-animation-active.mantis-animate-spin {
   animation: mantis-spin 1s linear infinite;
 }
 

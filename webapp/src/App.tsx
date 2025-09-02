@@ -369,33 +369,71 @@ function MyApp() {
               <div className="showcase-demo-card">
                 <h3>Entrance Animations</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <Button variant="primary">Fade In Animation (Demo)</Button>
-                  <Button variant="secondary">Slide In Right (Demo)</Button>
-                  <Button variant="success">Scale In Animation (Demo)</Button>
+                  <Animation type="fadeIn" duration={600}>
+                    <Button variant="primary">Fade In Animation</Button>
+                  </Animation>
+                  
+                  <Animation type="slideInRight" duration={800} delay={200}>
+                    <Button variant="secondary">Slide In Right</Button>
+                  </Animation>
+                  
+                  <Animation type="scaleIn" duration={500} delay={400}>
+                    <Button variant="success">Scale In Animation</Button>
+                  </Animation>
                 </div>
               </div>
               
               <div className="showcase-demo-card">
                 <h3>Interactive Animations</h3>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <Button variant="warning">Bouncing Button (Demo)</Button>
-                  <Button variant="error">Pulsing Button (Demo)</Button>
-                  <div style={{ 
-                    width: '40px', 
-                    height: '40px', 
-                    backgroundColor: '#2563eb', 
-                    borderRadius: '50%',
-                    margin: '10px 0'
-                  }}>
-                    Spinning Element (Demo)
-                  </div>
+                  <Animation type="bounce" repeat>
+                    <Button variant="warning">Bouncing Button</Button>
+                  </Animation>
+                  
+                  <Animation type="pulse" repeat>
+                    <Button variant="error">Pulsing Button</Button>
+                  </Animation>
+                  
+                  <Animation type="spin" repeat>
+                    <div style={{ 
+                      width: '40px', 
+                      height: '40px', 
+                      backgroundColor: '#2563eb', 
+                      borderRadius: '50%',
+                      margin: '10px 0',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      color: 'white',
+                      fontSize: '12px',
+                      fontWeight: 'bold'
+                    }}>
+                      ↻
+                    </div>
+                  </Animation>
                 </div>
               </div>
             </div>
             
+            <div className="showcase-grid showcase-grid--2" style={{ marginTop: '2rem' }}>
+              <Animation type="slideInUp" triggerOnScroll>
+                <Card>
+                  <h3>Scroll Triggered Animation</h3>
+                  <p>This card animates when it comes into view while scrolling.</p>
+                </Card>
+              </Animation>
+              
+              <Animation type="slideInLeft" triggerOnScroll delay={300}>
+                <Card>
+                  <h3>Delayed Scroll Animation</h3>
+                  <p>This card has a 300ms delay when triggered by scrolling.</p>
+                </Card>
+              </Animation>
+            </div>
+            
             <Card style={{ marginTop: '2rem' }}>
               <h3>Animation Component Usage</h3>
-              <p>Note: Animations are temporarily disabled to prevent re-rendering issues. In production, you would use:</p>
+              <p>Animations are now fully functional! Here's how to use them:</p>
               <div style={{ 
                 backgroundColor: '#f1f5f9', 
                 padding: '1rem', 
@@ -403,8 +441,18 @@ function MyApp() {
                 fontFamily: 'monospace',
                 fontSize: '0.875rem'
               }}>
-                {`<Animation type="fadeIn" duration={600}>
+                {`<Animation type="fadeIn" duration={600} delay={200}>
   <YourComponent />
+</Animation>
+
+// Scroll-triggered animation
+<Animation type="slideInUp" triggerOnScroll>
+  <Card>Your content</Card>
+</Animation>
+
+// Repeating animation
+<Animation type="pulse" repeat>
+  <Button>Pulsing button</Button>
 </Animation>`}
               </div>
             </Card>

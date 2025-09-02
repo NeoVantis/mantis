@@ -6,32 +6,36 @@
 /* Base animation classes are imported from animations.css */
 /* This file contains component-specific animation styles */
 
-/* Animation states */
-.mantis-animation-container.mantis-animate-fade-in {
+/* Initial states - applied before animation starts */
+.mantis-animation-container:not(.mantis-animation-active) {
+  /* Elements start invisible until animation begins */
+}
+
+.mantis-animation-container:not(.mantis-animation-active).mantis-animate-fade-in {
   opacity: 0;
 }
 
-.mantis-animation-container.mantis-animate-scale-in {
+.mantis-animation-container:not(.mantis-animation-active).mantis-animate-scale-in {
   transform: scale(0.9);
   opacity: 0;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-up {
+.mantis-animation-container:not(.mantis-animation-active).mantis-animate-slide-in-up {
   transform: translateY(20px);
   opacity: 0;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-down {
+.mantis-animation-container:not(.mantis-animation-active).mantis-animate-slide-in-down {
   transform: translateY(-20px);
   opacity: 0;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-left {
+.mantis-animation-container:not(.mantis-animation-active).mantis-animate-slide-in-left {
   transform: translateX(-20px);
   opacity: 0;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-right {
+.mantis-animation-container:not(.mantis-animation-active).mantis-animate-slide-in-right {
   transform: translateX(20px);
   opacity: 0;
 }

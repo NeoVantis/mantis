@@ -48,10 +48,10 @@ export const Animation: React.FC<AnimationProps> = ({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting && !isVisible) {
+        if (entry.isIntersecting) {
           setIsVisible(true);
           setShouldAnimate(true);
-        } else if (!entry.isIntersecting && repeat) {
+        } else if (repeat) {
           setIsVisible(false);
           setShouldAnimate(false);
         }
@@ -64,7 +64,7 @@ export const Animation: React.FC<AnimationProps> = ({
     }
 
     return () => observer.disconnect();
-  }, [triggerOnScroll, repeat, isVisible]);
+  }, [triggerOnScroll, repeat]); // Removed isVisible from dependencies
 
   useEffect(() => {
     if (shouldAnimate && isActive) {
@@ -95,7 +95,8 @@ export const Animation: React.FC<AnimationProps> = ({
 
   const containerClasses = [
     'mantis-animation-container',
-    shouldAnimate && isActive ? animationClass : '',
+    animationClass,
+    shouldAnimate && isActive ? 'mantis-animation-active' : '',
     className
   ].filter(Boolean).join(' ');
 
