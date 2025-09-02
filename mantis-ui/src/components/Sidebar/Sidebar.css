@@ -1,0 +1,196 @@
+/* Mantis Sidebar Styles */
+.mantis-sidebar {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--mantis-white);
+  border-right: 1px solid var(--mantis-gray-200);
+  height: 100vh;
+  position: relative;
+  transition: width var(--mantis-transition-base);
+  overflow: hidden;
+}
+
+.mantis-sidebar--collapsed {
+  overflow: visible;
+}
+
+.mantis-sidebar--collapsible {
+  cursor: pointer;
+}
+
+/* Sidebar Header */
+.mantis-sidebar__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--mantis-space-4);
+  border-bottom: 1px solid var(--mantis-gray-200);
+  background-color: var(--mantis-gray-50);
+  min-height: 4rem;
+}
+
+.mantis-sidebar__toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: var(--mantis-space-2);
+  border-radius: var(--mantis-radius-md);
+  cursor: pointer;
+  color: var(--mantis-gray-600);
+  transition: var(--mantis-transition-colors);
+}
+
+.mantis-sidebar__toggle:hover {
+  background-color: var(--mantis-gray-200);
+  color: var(--mantis-gray-900);
+}
+
+/* Sidebar Navigation */
+.mantis-sidebar__nav {
+  flex: 1;
+  padding: var(--mantis-space-2) 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.mantis-sidebar__item-wrapper {
+  position: relative;
+}
+
+.mantis-sidebar__item {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: var(--mantis-space-3) var(--mantis-space-4);
+  color: var(--mantis-gray-700);
+  text-decoration: none;
+  border: none;
+  background: none;
+  cursor: pointer;
+  transition: var(--mantis-transition-colors);
+  font-size: var(--mantis-font-size-sm);
+  font-weight: 500;
+  text-align: left;
+  min-height: 2.5rem;
+  gap: var(--mantis-space-3);
+}
+
+.mantis-sidebar__item:hover {
+  background-color: var(--mantis-gray-100);
+  color: var(--mantis-gray-900);
+}
+
+.mantis-sidebar__item--active {
+  background-color: var(--mantis-primary);
+  color: var(--mantis-white);
+}
+
+.mantis-sidebar__item--active:hover {
+  background-color: var(--mantis-primary-dark);
+}
+
+.mantis-sidebar__item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+.mantis-sidebar__item-label {
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mantis-sidebar__item-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform var(--mantis-transition-base);
+}
+
+.mantis-sidebar__item--expanded .mantis-sidebar__item-arrow {
+  transform: rotate(90deg);
+}
+
+/* Submenu */
+.mantis-sidebar__submenu {
+  background-color: var(--mantis-gray-50);
+  border-left: 2px solid var(--mantis-primary);
+  margin-left: var(--mantis-space-4);
+}
+
+.mantis-sidebar__submenu .mantis-sidebar__item {
+  padding-left: var(--mantis-space-6);
+  font-size: var(--mantis-font-size-xs);
+}
+
+/* Sidebar Footer */
+.mantis-sidebar__footer {
+  padding: var(--mantis-space-4);
+  border-top: 1px solid var(--mantis-gray-200);
+  background-color: var(--mantis-gray-50);
+}
+
+/* Collapsed State */
+.mantis-sidebar--collapsed .mantis-sidebar__item-label,
+.mantis-sidebar--collapsed .mantis-sidebar__item-arrow {
+  display: none;
+}
+
+.mantis-sidebar--collapsed .mantis-sidebar__item {
+  justify-content: center;
+  padding: var(--mantis-space-3);
+}
+
+.mantis-sidebar--collapsed .mantis-sidebar__submenu {
+  display: none;
+}
+
+.mantis-sidebar--collapsed .mantis-sidebar__header {
+  justify-content: center;
+}
+
+/* Tooltip for collapsed items */
+.mantis-sidebar--collapsed .mantis-sidebar__item {
+  position: relative;
+}
+
+.mantis-sidebar--collapsed .mantis-sidebar__item:hover::after {
+  content: attr(title);
+  position: absolute;
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: var(--mantis-gray-900);
+  color: var(--mantis-white);
+  padding: var(--mantis-space-2) var(--mantis-space-3);
+  border-radius: var(--mantis-radius-md);
+  white-space: nowrap;
+  font-size: var(--mantis-font-size-sm);
+  z-index: 1000;
+  margin-left: var(--mantis-space-2);
+  animation: mantis-fade-in var(--mantis-transition-fast);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .mantis-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform var(--mantis-transition-base);
+  }
+  
+  .mantis-sidebar--open {
+    transform: translateX(0);
+  }
+}
