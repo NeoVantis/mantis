@@ -1,4 +1,5 @@
 import typescript from "rollup-plugin-typescript2";
+import postcss from "rollup-plugin-postcss";
 import { defineConfig } from "rollup";
 import * as ts from "typescript";
 
@@ -18,6 +19,10 @@ export default defineConfig({
   ],
   external: ["react", "react-dom"],
   plugins: [
+    postcss({
+      extract: true,
+      minimize: true,
+    }),
     typescript({
       typescript: ts,
       tsconfig: "./tsconfig.json",
