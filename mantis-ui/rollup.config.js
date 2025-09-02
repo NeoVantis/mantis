@@ -1,5 +1,6 @@
 import typescript from "rollup-plugin-typescript2";
 import { defineConfig } from "rollup";
+import * as ts from "typescript";
 
 export default defineConfig({
   input: "src/index.ts",
@@ -18,7 +19,7 @@ export default defineConfig({
   external: ["react", "react-dom"],
   plugins: [
     typescript({
-      typescript: require("typescript"),
+      typescript: ts,
       tsconfig: "./tsconfig.json",
       useTsconfigDeclarationDir: true,
     }),
