@@ -3,39 +3,6 @@
   display: block;
 }
 
-/* Base animation classes are imported from animations.css */
-/* This file contains component-specific animation styles */
-
-/* Animation states */
-.mantis-animation-container.mantis-animate-fade-in {
-  opacity: 0;
-}
-
-.mantis-animation-container.mantis-animate-scale-in {
-  transform: scale(0.9);
-  opacity: 0;
-}
-
-.mantis-animation-container.mantis-animate-slide-in-up {
-  transform: translateY(20px);
-  opacity: 0;
-}
-
-.mantis-animation-container.mantis-animate-slide-in-down {
-  transform: translateY(-20px);
-  opacity: 0;
-}
-
-.mantis-animation-container.mantis-animate-slide-in-left {
-  transform: translateX(-20px);
-  opacity: 0;
-}
-
-.mantis-animation-container.mantis-animate-slide-in-right {
-  transform: translateX(20px);
-  opacity: 0;
-}
-
 /* Performance optimizations */
 .mantis-animation-container {
   will-change: transform, opacity;
