@@ -40,11 +40,7 @@ const SidebarItemComponent: React.FC<{
   item: SidebarItem;
   level: number;
   isCollapsed: boolean;
-}> = ({ item, level, isCollapsed }: {
-  item: SidebarItem;
-  level: number;
-  isCollapsed: boolean;
-}) => {
+}> = ({ item, level, isCollapsed }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = item.children && item.children.length > 0;
   
@@ -154,7 +150,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   className = '',
   header,
   footer,
-}: SidebarProps) => {
+}) => {
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   
   const isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
