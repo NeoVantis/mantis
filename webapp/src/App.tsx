@@ -360,55 +360,58 @@ function MyApp() {
         );
 
       case 'animations':
+            const animationTypes = [
+              'fadeIn',
+              'fadeOut',
+              'slideInRight',
+              'slideInLeft',
+              'slideInUp',
+              'slideInDown',
+              'scaleIn',
+              'bounce',
+              'pulse',
+              'spin',
+            ] as const;
         return (
           <div className="showcase-section">
-            <h1>Animations</h1>
-            <p>Smooth animations to enhance user experience and provide visual feedback.</p>
-            
-            <div className="showcase-grid showcase-grid--2">
-              <div className="showcase-demo-card">
-                <h3>Entrance Animations</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <Button variant="primary">Fade In Animation (Demo)</Button>
-                  <Button variant="secondary">Slide In Right (Demo)</Button>
-                  <Button variant="success">Scale In Animation (Demo)</Button>
-                </div>
-              </div>
-              
-              <div className="showcase-demo-card">
-                <h3>Interactive Animations</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-                  <Button variant="warning">Bouncing Button (Demo)</Button>
-                  <Button variant="error">Pulsing Button (Demo)</Button>
-                  <div style={{ 
-                    width: '40px', 
-                    height: '40px', 
-                    backgroundColor: '#2563eb', 
-                    borderRadius: '50%',
-                    margin: '10px 0'
-                  }}>
-                    Spinning Element (Demo)
-                  </div>
-                </div>
-              </div>
-            </div>
-            
-            <Card style={{ marginTop: '2rem' }}>
-              <h3>Animation Component Usage</h3>
-              <p>Note: Animations are temporarily disabled to prevent re-rendering issues. In production, you would use:</p>
-              <div style={{ 
-                backgroundColor: '#f1f5f9', 
-                padding: '1rem', 
-                borderRadius: '0.5rem',
-                fontFamily: 'monospace',
-                fontSize: '0.875rem'
-              }}>
-                {`<Animation type="fadeIn" duration={600}>
+      <h1>Animations</h1>
+      <p>Examples of all available animation types using the <code>{'<Animation />'}</code> component.</p>
+
+      <div className="showcase-grid showcase-grid--2">
+        {animationTypes.map((type) => (
+          <div key={type} className="showcase-demo-card">
+            <h3>{type}</h3>
+            <Animation
+              type={type}
+              duration={800}
+              easing="ease-out"
+              repeat={type === 'bounce' || type === 'pulse' || type === 'spin'}
+              triggerOnScroll={false}
+            >
+              <Button variant="primary">{type} Demo</Button>
+            </Animation>
+          </div>
+        ))}
+      </div>
+
+      <Card style={{ marginTop: '2rem' }}>
+        <h3>Usage Example</h3>
+        <p>Use the <code>{'<Animation />'}</code> wrapper to animate any element:</p>
+        <div
+          style={{
+            backgroundColor: '#f1f5f9',
+            padding: '1rem',
+            borderRadius: '0.5rem',
+            fontFamily: 'monospace',
+            fontSize: '0.875rem',
+          }}
+        >
+{`<Animation type="fadeIn" duration={600}>
   <YourComponent />
 </Animation>`}
-              </div>
-            </Card>
-          </div>
+        </div>
+      </Card>
+    </div>
         );
 
       case 'components':

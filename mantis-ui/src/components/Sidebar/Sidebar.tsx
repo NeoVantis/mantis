@@ -35,6 +35,7 @@ export interface SidebarProps {
 }
 
 // Separate component for sidebar items to properly use hooks
+//
 const SidebarItemComponent: React.FC<{
   item: SidebarItem;
   level: number;
@@ -124,7 +125,7 @@ const SidebarItemComponent: React.FC<{
       
       {hasChildren && isExpanded && !isCollapsed && (
         <div className="mantis-sidebar__submenu mantis-animate-slide-in-down">
-          {item.children!.map(child => (
+          {item.children!.map((child: SidebarItem) => (
             <SidebarItemComponent 
               key={child.id}
               item={child} 
@@ -203,7 +204,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
       
       <nav className="mantis-sidebar__nav">
-        {items.map(item => (
+        {items.map((item: SidebarItem) => (
           <SidebarItemComponent 
             key={item.id}
             item={item} 
