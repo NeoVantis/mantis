@@ -65,18 +65,19 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
     if (typeof rowKey === 'function') {
       return rowKey(record);
     }
-    return String(record[rowKey]) || index.toString();
+
+    return (record as any)[rowKey] || index.toString();
   };
 
   const renderCell = (column: TableColumn<T>, record: T, index: number) => {
     const { dataIndex, render } = column;
     
     if (render) {
-      return render(dataIndex ? record[dataIndex] : record, record, index);
+      return render(dataIndex ? (record as any)[dataIndex] : record, record, index);
     }
     
     if (dataIndex) {
-      return record[dataIndex];
+      return (record as any)[dataIndex];
     }
     
     return null;
