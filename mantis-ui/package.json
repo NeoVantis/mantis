@@ -12,7 +12,12 @@
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
-  "keywords": ["ui", "components", "react", "mantis"],
+  "keywords": [
+    "ui",
+    "components",
+    "react",
+    "mantis"
+  ],
   "author": "NeoVantis",
   "license": "MIT",
   "peerDependencies": {
@@ -22,11 +27,12 @@
   "devDependencies": {
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "rollup": "^3.29.0",
-    "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "^5.0.0",
     "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react-dom": "^18.2.0",
+    "rollup": "^3.29.0",
+    "rollup-plugin-postcss": "^4.0.2",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.0.0"
   },
   "files": [
     "dist"

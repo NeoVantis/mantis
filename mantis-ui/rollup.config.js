@@ -1,5 +1,7 @@
 import typescript from "rollup-plugin-typescript2";
+import postcss from "rollup-plugin-postcss";
 import { defineConfig } from "rollup";
+import ts from "typescript";
 
 export default defineConfig({
   input: "src/index.ts",
@@ -15,10 +17,14 @@ export default defineConfig({
       sourcemap: true,
     },
   ],
-  external: ["react", "react-dom"],
+  external: ["react", "react-dom", "react/jsx-runtime"],
   plugins: [
+    postcss({
+      extract: true,
+      minimize: true,
+    }),
     typescript({
-      typescript: require("typescript"),
+      typescript: ts,
       tsconfig: "./tsconfig.json",
       useTsconfigDeclarationDir: true,
     }),
