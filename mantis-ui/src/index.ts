@@ -14,7 +14,6 @@ export type { AnimationProps } from './components/Animation';
 
 // Styles
 import './styles/base.css';
-import './animations/animations.css';
 import './components/Button/Button.css';
 import './components/Card/Card.css';
 import './components/Sidebar/Sidebar.css';

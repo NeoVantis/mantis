@@ -1,46 +1,249 @@
-/* Mantis Animation Component Styles */
+/* Base animation container */
 .mantis-animation-container {
-  display: block;
+  transform-origin: center;
+  /* Performance optimizations */
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
-/* Base animation classes are imported from animations.css */
-/* This file contains component-specific animation styles */
-
-/* Animation states */
-.mantis-animation-container.mantis-animate-fade-in {
-  opacity: 0;
+/* Transform origin utilities */
+.mantis-animation-container[data-origin="top"] {
+  transform-origin: top;
 }
 
-.mantis-animation-container.mantis-animate-scale-in {
-  transform: scale(0.9);
-  opacity: 0;
+.mantis-animation-container[data-origin="bottom"] {
+  transform-origin: bottom;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-up {
-  transform: translateY(20px);
-  opacity: 0;
+.mantis-animation-container[data-origin="left"] {
+  transform-origin: left;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-down {
-  transform: translateY(-20px);
-  opacity: 0;
+.mantis-animation-container[data-origin="right"] {
+  transform-origin: right;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-left {
-  transform: translateX(-20px);
-  opacity: 0;
+.mantis-animation-container[data-origin="top-left"] {
+  transform-origin: top left;
 }
 
-.mantis-animation-container.mantis-animate-slide-in-right {
-  transform: translateX(20px);
-  opacity: 0;
+.mantis-animation-container[data-origin="top-right"] {
+  transform-origin: top right;
 }
 
-/* Performance optimizations */
-.mantis-animation-container {
+.mantis-animation-container[data-origin="bottom-left"] {
+  transform-origin: bottom left;
+}
+
+.mantis-animation-container[data-origin="bottom-right"] {
+  transform-origin: bottom right;
+}
+
+/* GPU acceleration utilities */
+.mantis-animation-container[data-gpu="true"] {
+  transform: translateZ(0);
   will-change: transform, opacity;
 }
 
-.mantis-animation-container.mantis-animate-spin {
-  will-change: transform;
+/* Fade Animations - GPU optimized */
+@keyframes mantis-fade-in {
+  from {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+}
+
+@keyframes mantis-fade-out {
+  from {
+    opacity: 1;
+    transform: translateZ(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateZ(0);
+  }
+}
+
+.mantis-animate-fade-in {
+  animation-name: mantis-fade-in;
+}
+
+.mantis-animate-fade-out {
+  animation-name: mantis-fade-out;
+}
+
+/* Slide Animations - GPU optimized with transform3d */
+@keyframes mantis-slide-in-right {
+  from {
+    transform: translate3d(100%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes mantis-slide-in-left {
+  from {
+    transform: translate3d(-100%, 0, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes mantis-slide-in-up {
+  from {
+    transform: translate3d(0, 100%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+@keyframes mantis-slide-in-down {
+  from {
+    transform: translate3d(0, -100%, 0);
+    opacity: 0;
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+    opacity: 1;
+  }
+}
+
+.mantis-animate-slide-in-right {
+  animation-name: mantis-slide-in-right;
+}
+
+.mantis-animate-slide-in-left {
+  animation-name: mantis-slide-in-left;
+}
+
+.mantis-animate-slide-in-up {
+  animation-name: mantis-slide-in-up;
+}
+
+.mantis-animate-slide-in-down {
+  animation-name: mantis-slide-in-down;
+}
+
+/* Scale Animation - GPU optimized */
+@keyframes mantis-scale-in {
+  from {
+    transform: scale3d(0, 0, 1);
+    opacity: 0;
+  }
+  to {
+    transform: scale3d(1, 1, 1);
+    opacity: 1;
+  }
+}
+
+.mantis-animate-scale-in {
+  animation-name: mantis-scale-in;
+}
+
+/* Bounce Animation - GPU optimized */
+@keyframes mantis-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    animation-timing-function: cubic-bezier(0.215, 0.610, 0.355, 1.000);
+    transform: translate3d(0, 0, 0);
+  }
+  40%, 43% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -30px, 0);
+  }
+  70% {
+    animation-timing-function: cubic-bezier(0.755, 0.050, 0.855, 0.060);
+    transform: translate3d(0, -15px, 0);
+  }
+  90% {
+    transform: translate3d(0, -4px, 0);
+  }
+}
+
+.mantis-animate-bounce {
+  animation-name: mantis-bounce;
+}
+
+/* Pulse Animation - GPU optimized */
+@keyframes mantis-pulse {
+  0% {
+    transform: scale3d(1, 1, 1);
+  }
+  50% {
+    transform: scale3d(1.05, 1.05, 1);
+  }
+  100% {
+    transform: scale3d(1, 1, 1);
+  }
+}
+
+.mantis-animate-pulse {
+  animation-name: mantis-pulse;
+}
+
+/* Spin Animation - GPU optimized */
+@keyframes mantis-spin {
+  from {
+    transform: rotate3d(0, 0, 1, 0deg);
+  }
+  to {
+    transform: rotate3d(0, 0, 1, 360deg);
+  }
+}
+
+.mantis-animate-spin {
+  animation-name: mantis-spin;
+}
+
+/* Responsive animation controls */
+@media (max-width: 767px) {
+  .mantis-animation-container[data-mobile="disabled"] {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .mantis-animation-container[data-tablet="disabled"] {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .mantis-animation-container[data-desktop="disabled"] {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Accessibility: Respect reduced motion preference */
+@media (prefers-reduced-motion: reduce) {
+  .mantis-animation-container {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transform: none !important;
+  }
+}
+
+/* Performance optimization classes */
+.mantis-animation-container.mantis-will-change {
+  will-change: transform, opacity;
+}
+
+.mantis-animation-container.mantis-gpu-accelerated {
+  transform: translateZ(0);
 }

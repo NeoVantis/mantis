@@ -77,6 +77,10 @@
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
 
+.showcase-grid--5 {
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+}
+
 /* Demo Cards */
 .showcase-demo-card {
   background: white;
@@ -162,7 +166,8 @@
   
   .showcase-grid--2,
   .showcase-grid--3,
-  .showcase-grid--4 {
+  .showcase-grid--4,
+  .showcase-grid--5 {
     grid-template-columns: 1fr;
   }
   
