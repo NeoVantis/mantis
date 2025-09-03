@@ -21,7 +21,8 @@ export type EasingFunction =
   | 'ease-out' 
   | 'ease-in-out' 
   | 'linear'
-  | string; // Allow custom cubic-bezier
+  | `cubic-bezier(${number}, ${number}, ${number}, ${number})`
+  | string; // Allow other custom values
 
 export type AnimationDirection = 'normal' | 'reverse' | 'alternate' | 'alternate-reverse';
 
@@ -50,6 +51,12 @@ export type BreakpointConfig = {
   easing?: EasingFunction;
   /** Transform origin */
   transformOrigin?: TransformOrigin;
+  /** Animation direction */
+  direction?: AnimationDirection;
+  /** Animation fill mode */
+  fillMode?: AnimationFillMode;
+  /** Number of iterations (number or 'infinite') */
+  iterationCount?: number | 'infinite';
   /** Whether animation is disabled at this breakpoint */
   disabled?: boolean;
 };
@@ -72,8 +79,6 @@ export interface AdvancedAnimationConfig {
   fillMode?: AnimationFillMode;
   /** Number of iterations (number or 'infinite') */
   iterationCount?: number | 'infinite';
-  /** Force hardware acceleration */
-  forceGPU?: boolean;
 }
 
 export interface AnimationProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration' | 'className' | 'style'> {

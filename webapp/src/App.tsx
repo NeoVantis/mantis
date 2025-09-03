@@ -501,12 +501,11 @@ function MyApp() {
                 <Animation 
                   type="pulse" 
                   config={{ 
-                    iterationCount: 3,
-                    forceGPU: true
+                    iterationCount: 3
                   }}
                   duration={1000}
                 >
-                  <Button variant="warning">Pulse 3x (GPU)</Button>
+                  <Button variant="warning">Pulse 3x</Button>
                 </Animation>
                 <Animation 
                   type="bounce" 
@@ -641,26 +640,20 @@ function MyApp() {
               <div className="showcase-grid showcase-grid--2" key={animationKeys['performance']}>
                 <Animation 
                   type="slideInRight" 
-                  config={{ 
-                    forceGPU: true
-                  }}
                   duration={1000}
                 >
                   <Card variant="elevated">
-                    <h4>GPU Accelerated</h4>
-                    <p>Uses transform3d() for smooth 60fps animations</p>
+                    <h4>Smooth Animations</h4>
+                    <p>CSS transforms automatically trigger hardware acceleration</p>
                   </Card>
                 </Animation>
                 <Animation 
                   type="fadeIn" 
-                  config={{ 
-                    forceGPU: true
-                  }}
                   duration={800}
                 >
                   <Card variant="elevated">
-                    <h4>GPU Accelerated</h4>
-                    <p>Uses transform3d() for smooth 60fps animations</p>
+                    <h4>Optimized Performance</h4>
+                    <p>Uses CSS transforms for smooth 60fps animations</p>
                   </Card>
                 </Animation>
               </div>
@@ -707,8 +700,7 @@ function MyApp() {
   type="bounce"
   config={{
     iterationCount: 3,
-    direction: "alternate",
-    forceGPU: true
+    direction: "alternate"
   }}
 >
   <Button />

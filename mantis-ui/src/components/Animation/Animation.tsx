@@ -35,6 +35,9 @@ export const Animation: React.FC<AnimationProps> = ({
     delay,
     easing,
     transformOrigin: config?.transformOrigin,
+    direction: config?.direction,
+    fillMode: config?.fillMode,
+    iterationCount: config?.iterationCount,
   });
 
   // Use responsive config values or fallback to props
@@ -43,6 +46,9 @@ export const Animation: React.FC<AnimationProps> = ({
   const finalDelay = currentConfig.delay || delay;
   const finalEasing = currentConfig.easing || easing;
   const finalTransformOrigin = currentConfig.transformOrigin || config?.transformOrigin || 'center';
+  const finalDirection = currentConfig.direction || config?.direction || 'normal';
+  const finalFillMode = currentConfig.fillMode || config?.fillMode || 'both';
+  const finalIterationCount = currentConfig.iterationCount || config?.iterationCount || (repeat ? 'infinite' : 1);
   
   // Skip animation if disabled at current breakpoint
   const isDisabled = currentConfig.disabled || reduceMotion;
@@ -88,16 +94,10 @@ export const Animation: React.FC<AnimationProps> = ({
       animationDuration: `${finalDuration}ms`,
       animationDelay: `${finalDelay}ms`,
       animationTimingFunction: finalEasing,
-      animationDirection: config?.direction || 'normal',
-      animationFillMode: config?.fillMode || 'both',
-      animationIterationCount: config?.iterationCount || (repeat ? 'infinite' : 1),
+      animationDirection: finalDirection,
+      animationFillMode: finalFillMode,
+      animationIterationCount: finalIterationCount,
     };
-
-    // Performance optimization - force hardware acceleration if configured
-    if (config?.forceGPU) {
-      baseStyles.transform = 'translateZ(0)'; // Force hardware acceleration
-      baseStyles.willChange = 'transform, opacity';
-    }
 
     return baseStyles;
   }, [
@@ -106,11 +106,9 @@ export const Animation: React.FC<AnimationProps> = ({
     finalDuration,
     finalDelay,
     finalEasing,
-    config?.direction,
-    config?.fillMode,
-    config?.iterationCount,
-    config?.forceGPU,
-    repeat,
+    finalDirection,
+    finalFillMode,
+    finalIterationCount,
   ]);
 
   // Handle animation events with proper cleanup
