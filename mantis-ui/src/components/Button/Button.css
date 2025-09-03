@@ -234,11 +234,11 @@
 }
 
 /* Opacity utilities for spinner */
-.opacity-25 {
+.mantis-opacity-25 {
   opacity: 0.25;
 }
 
-.opacity-75 {
+.mantis-opacity-75 {
   opacity: 0.75;
 }
 
