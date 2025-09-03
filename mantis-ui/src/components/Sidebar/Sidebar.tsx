@@ -35,11 +35,16 @@ export interface SidebarProps {
 }
 
 // Separate component for sidebar items to properly use hooks
+//
 const SidebarItemComponent: React.FC<{
   item: SidebarItem;
   level: number;
   isCollapsed: boolean;
-}> = ({ item, level, isCollapsed }) => {
+}> = ({ item, level, isCollapsed }: {
+  item: SidebarItem;
+  level: number;
+  isCollapsed: boolean;
+}) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = item.children && item.children.length > 0;
   
@@ -124,7 +129,7 @@ const SidebarItemComponent: React.FC<{
       
       {hasChildren && isExpanded && !isCollapsed && (
         <div className="mantis-sidebar__submenu mantis-animate-slide-in-down">
-          {item.children!.map(child => (
+          {item.children!.map((child: SidebarItem) => (
             <SidebarItemComponent 
               key={child.id}
               item={child} 
@@ -149,7 +154,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
   className = '',
   header,
   footer,
-}) => {
+}: SidebarProps) => {
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
   
   const isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
@@ -203,7 +208,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       )}
       
       <nav className="mantis-sidebar__nav">
-        {items.map(item => (
+        {items.map((item: SidebarItem) => (
           <SidebarItemComponent 
             key={item.id}
             item={item} 
