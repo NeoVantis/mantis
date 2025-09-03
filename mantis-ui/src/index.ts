@@ -3,7 +3,7 @@ export { Button } from './components/Button';
 export { Card } from './components/Card';
 export { Sidebar } from './components/Sidebar';
 export { Table } from './components/Table';
-export { Animation, ResponsiveProvider } from './components/Animation';
+export { Animation } from './components/Animation';
 
 // Animation utilities and types
 export { 
@@ -17,6 +17,7 @@ export {
   convertSimpleResponsiveConfig,
   useInView,
   useResponsiveAnimation,
+  ResponsiveProvider,
   useResponsiveContext
 } from './components/Animation';
 

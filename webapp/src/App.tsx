@@ -6,7 +6,8 @@ import {
   Table, 
   Animation,
   SidebarItem,
-  TableColumn 
+  TableColumn,
+  ResponsiveProvider
 } from 'mantis-ui';
 import './App.css';
 
@@ -898,37 +899,39 @@ function MyApp() {
   };
 
   return (
-    <div className="mantis-ui showcase-container">
-      <Sidebar
-        items={sidebarItems}
-        collapsible
-        collapsed={sidebarCollapsed}
-        onCollapseChange={setSidebarCollapsed}
-        header={
-          <div>
-            <h3 style={{ margin: 0, color: '#1e293b', fontSize: '1.25rem' }}>
-              {sidebarCollapsed ? 'M' : 'Mantis UI'}
-            </h3>
-            {!sidebarCollapsed && (
-              <p style={{ margin: '0.25rem 0 0 0', color: '#64748b', fontSize: '0.875rem' }}>
-                Component Library
-              </p>
-            )}
-          </div>
-        }
-        footer={
-          !sidebarCollapsed && (
-            <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
-              v1.0.0 • NeoVantis
+    <ResponsiveProvider>
+      <div className="mantis-ui showcase-container">
+        <Sidebar
+          items={sidebarItems}
+          collapsible
+          collapsed={sidebarCollapsed}
+          onCollapseChange={setSidebarCollapsed}
+          header={
+            <div>
+              <h3 style={{ margin: 0, color: '#1e293b', fontSize: '1.25rem' }}>
+                {sidebarCollapsed ? 'M' : 'Mantis UI'}
+              </h3>
+              {!sidebarCollapsed && (
+                <p style={{ margin: '0.25rem 0 0 0', color: '#64748b', fontSize: '0.875rem' }}>
+                  Component Library
+                </p>
+              )}
             </div>
-          )
-        }
-      />
-      
-      <main className="showcase-main">
-        {renderPageContent()}
-      </main>
-    </div>
+          }
+          footer={
+            !sidebarCollapsed && (
+              <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
+                v1.0.0 • NeoVantis
+              </div>
+            )
+          }
+        />
+        
+        <main className="showcase-main">
+          {renderPageContent()}
+        </main>
+      </div>
+    </ResponsiveProvider>
   );
 }
 

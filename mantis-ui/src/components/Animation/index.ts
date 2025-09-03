@@ -1,10 +1,7 @@
 // Main Animation component
 export { Animation } from './Animation';
 
-// Responsive context for performance optimization
-export { ResponsiveProvider, useResponsiveContext } from './ResponsiveContext';
-
-// Animation types and constants
+// Animation types
 export type { 
   AnimationProps, 
   AnimationType, 
@@ -22,7 +19,6 @@ export type {
   AdvancedAnimationConfig,
   UseResponsiveAnimationReturn 
 } from './Animation.types';
-
 export { 
   animationTypes,
   easingFunctions,
@@ -37,3 +33,11 @@ export {
 // Hooks
 export { useInView } from './useInView';
 export { useResponsiveAnimation } from './useResponsiveAnimation';
+
+// Responsive Context Provider - use this at your app root level for efficient breakpoint detection
+export { ResponsiveProvider, useResponsiveContext } from './ResponsiveContext';
+
+// Note: Individual animation components removed to reduce bundle size
+// Use <Animation type="fadeIn" /> instead of <FadeIn />
+// All animation types available: fadeIn, fadeOut, slideInRight, slideInLeft, 
+// slideInUp, slideInDown, scaleIn, bounce, pulse, spin
