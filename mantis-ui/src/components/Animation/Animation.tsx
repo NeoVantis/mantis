@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import './Animation.css';
-import { AnimationProps, AnimationType } from './Animation.types';
+import { AnimationProps } from './Animation.types';
 import { useInView } from './useInView';
 import { useResponsiveAnimation } from './useResponsiveAnimation';
 
@@ -19,8 +19,6 @@ export const Animation: React.FC<AnimationProps> = ({
   onAnimationStart,
   onAnimationEnd,
   onAnimationIteration,
-  className = '',
-  style: externalStyle,
   ...htmlProps
 }) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -83,10 +81,9 @@ export const Animation: React.FC<AnimationProps> = ({
 
   // Build optimized inline styles
   const style = useMemo(() => {
-    if (isDisabled) return externalStyle;
+    if (isDisabled) return {};
 
     const baseStyles: React.CSSProperties = {
-      ...externalStyle,
       transformOrigin: finalTransformOrigin,
       animationDuration: `${finalDuration}ms`,
       animationDelay: `${finalDelay}ms`,
@@ -96,26 +93,15 @@ export const Animation: React.FC<AnimationProps> = ({
       animationIterationCount: config?.iterationCount || (repeat ? 'infinite' : 1),
     };
 
-    // Performance optimizations
-    if (config?.willChange || config?.forceGPU) {
-      baseStyles.willChange = config.willChange ? 'transform, opacity' : 'auto';
-    }
-
+    // Performance optimization - force hardware acceleration if configured
     if (config?.forceGPU) {
       baseStyles.transform = 'translateZ(0)'; // Force hardware acceleration
-    }
-
-    // Apply custom CSS variables if provided
-    if (config?.cssVariables) {
-      Object.entries(config.cssVariables).forEach(([key, value]) => {
-        (baseStyles as any)[`--${key}`] = typeof value === 'number' ? `${value}px` : value;
-      });
+      baseStyles.willChange = 'transform, opacity';
     }
 
     return baseStyles;
   }, [
     isDisabled,
-    externalStyle,
     finalTransformOrigin,
     finalDuration,
     finalDelay,
@@ -123,9 +109,7 @@ export const Animation: React.FC<AnimationProps> = ({
     config?.direction,
     config?.fillMode,
     config?.iterationCount,
-    config?.willChange,
     config?.forceGPU,
-    config?.cssVariables,
     repeat,
   ]);
 
@@ -163,13 +147,9 @@ export const Animation: React.FC<AnimationProps> = ({
     if (shouldAnimate && isActive && !isDisabled) {
       baseClasses.push(animationClass);
     }
-    
-    if (className) {
-      baseClasses.push(className);
-    }
 
     return baseClasses.join(' ');
-  }, [shouldAnimate, isActive, isDisabled, animationClass, className]);
+  }, [shouldAnimate, isActive, isDisabled, animationClass]);
 
   return (
     <div

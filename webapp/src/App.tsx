@@ -502,8 +502,7 @@ function MyApp() {
                   type="pulse" 
                   config={{ 
                     iterationCount: 3,
-                    forceGPU: true,
-                    willChange: true
+                    forceGPU: true
                   }}
                   duration={1000}
                 >
@@ -643,29 +642,25 @@ function MyApp() {
                 <Animation 
                   type="slideInRight" 
                   config={{ 
-                    forceGPU: true,
-                    willChange: true
+                    forceGPU: true
                   }}
                   duration={1000}
                 >
                   <Card variant="elevated">
                     <h4>GPU Accelerated</h4>
-                    <p>Uses transform3d() and will-change for smooth 60fps animations</p>
+                    <p>Uses transform3d() for smooth 60fps animations</p>
                   </Card>
                 </Animation>
                 <Animation 
                   type="fadeIn" 
-                  config={{
-                    cssVariables: {
-                      'custom-opacity': '0.8',
-                      'custom-scale': '1.1'
-                    }
+                  config={{ 
+                    forceGPU: true
                   }}
                   duration={800}
                 >
                   <Card variant="elevated">
-                    <h4>Custom CSS Variables</h4>
-                    <p>Inject custom CSS variables for advanced styling</p>
+                    <h4>GPU Accelerated</h4>
+                    <p>Uses transform3d() for smooth 60fps animations</p>
                   </Card>
                 </Animation>
               </div>
@@ -713,8 +708,7 @@ function MyApp() {
   config={{
     iterationCount: 3,
     direction: "alternate",
-    forceGPU: true,
-    willChange: true
+    forceGPU: true
   }}
 >
   <Button />

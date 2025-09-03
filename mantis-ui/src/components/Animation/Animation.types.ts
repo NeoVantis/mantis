@@ -72,15 +72,11 @@ export interface AdvancedAnimationConfig {
   fillMode?: AnimationFillMode;
   /** Number of iterations (number or 'infinite') */
   iterationCount?: number | 'infinite';
-  /** Custom CSS variables to apply */
-  cssVariables?: Record<string, string | number>;
-  /** Performance optimization - use will-change CSS property */
-  willChange?: boolean;
   /** Force hardware acceleration */
   forceGPU?: boolean;
 }
 
-export interface AnimationProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration'> {
+export interface AnimationProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onAnimationStart' | 'onAnimationEnd' | 'onAnimationIteration' | 'className' | 'style'> {
   /** Children to animate */
   children: React.ReactNode;
   /** Type of animation */
@@ -107,8 +103,6 @@ export interface AnimationProps extends Omit<React.HTMLAttributes<HTMLDivElement
   onAnimationStart?: (type: AnimationType) => void;
   onAnimationEnd?: (type: AnimationType) => void;
   onAnimationIteration?: (type: AnimationType) => void;
-  /** Additional classes */
-  className?: string;
 }
 
 export interface UseResponsiveAnimationReturn {
