@@ -62,6 +62,7 @@
   --mantis-transition-fast: 150ms ease-in-out;
   --mantis-transition-base: 250ms ease-in-out;
   --mantis-transition-slow: 350ms ease-in-out;
+  --mantis-transition-colors: background-color 150ms ease-in-out, border-color 150ms ease-in-out, color 150ms ease-in-out;
 }
 
 /* Reset and Base Styles */

@@ -43,6 +43,22 @@
   min-height: 3rem;
 }
 
+/* Icon-only button sizes */
+.mantis-button--icon-only.mantis-button--sm {
+  padding: var(--mantis-space-2);
+  width: 2rem;
+}
+
+.mantis-button--icon-only.mantis-button--md {
+  padding: var(--mantis-space-3);
+  width: 2.5rem;
+}
+
+.mantis-button--icon-only.mantis-button--lg {
+  padding: var(--mantis-space-4);
+  width: 3rem;
+}
+
 /* Button Variants */
 .mantis-button--primary {
   background-color: var(--mantis-primary);
@@ -129,6 +145,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.mantis-button__spinner:not(:only-child) {
   margin-right: var(--mantis-space-2);
 }
 
@@ -136,20 +155,91 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+}
+
+.mantis-button__icon svg {
+  width: 1em;
+  height: 1em;
 }
 
 .mantis-button__icon--left {
-  margin-right: var(--mantis-space-1);
+  margin-right: var(--mantis-space-2);
 }
 
 .mantis-button__icon--right {
+  margin-left: var(--mantis-space-2);
+}
+
+/* Adjust icon spacing for different sizes */
+.mantis-button--sm .mantis-button__icon--left {
+  margin-right: var(--mantis-space-1);
+}
+
+.mantis-button--sm .mantis-button__icon--right {
   margin-left: var(--mantis-space-1);
+}
+
+.mantis-button--lg .mantis-button__icon--left {
+  margin-right: var(--mantis-space-3);
+}
+
+.mantis-button--lg .mantis-button__icon--right {
+  margin-left: var(--mantis-space-3);
 }
 
 .mantis-button__content {
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+/* Icon-only button styles */
+.mantis-button--icon-only {
+  padding: var(--mantis-space-2);
+  min-width: auto;
+  justify-content: center;
+  align-items: center;
+}
+
+.mantis-button--icon-only.mantis-button--sm {
+  padding: var(--mantis-space-1);
+}
+
+.mantis-button--icon-only.mantis-button--lg {
+  padding: var(--mantis-space-3);
+}
+
+.mantis-button--icon-only .mantis-button__icon {
+  margin: 0;
+}
+
+.mantis-button--icon-only .mantis-button__icon--left,
+.mantis-button--icon-only .mantis-button__icon--right {
+  margin: 0;
+}
+
+/* Spin animation for loading spinner */
+@keyframes mantis-animate-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.mantis-animate-spin {
+  animation: mantis-animate-spin 1s linear infinite;
+}
+
+/* Opacity utilities for spinner */
+.mantis-opacity-25 {
+  opacity: 0.25;
+}
+
+.mantis-opacity-75 {
+  opacity: 0.75;
 }
 
 /* Active state */

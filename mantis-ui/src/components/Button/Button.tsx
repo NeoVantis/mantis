@@ -3,7 +3,7 @@ import './Button.css';
 
 export interface ButtonProps {
   /** Button content */
-  children: React.ReactNode;
+  children?: React.ReactNode;
   /** Button variant */
   variant?: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'ghost';
   /** Button size */
@@ -20,9 +20,13 @@ export interface ButtonProps {
   onClick?: (event: React.MouseEvent<HTMLButtonElement>) => void;
   /** Additional CSS classes */
   className?: string;
-  /** Icon to display before text */
+  /** Icon to display with the button */
+  icon?: React.ReactNode;
+  /** Position of the icon relative to the text */
+  iconPosition?: 'left' | 'right';
+  /** @deprecated Use icon and iconPosition instead */
   leftIcon?: React.ReactNode;
-  /** Icon to display after text */
+  /** @deprecated Use icon and iconPosition instead */
   rightIcon?: React.ReactNode;
 }
 
@@ -36,16 +40,29 @@ export const Button: React.FC<ButtonProps> = ({
   type = 'button',
   onClick,
   className = '',
+  icon,
+  iconPosition = 'left',
   leftIcon,
   rightIcon,
   ...props
 }) => {
+  // Handle backward compatibility
+  const actualIcon = icon || leftIcon || rightIcon;
+  const actualIconPosition = icon 
+    ? iconPosition 
+    : leftIcon 
+    ? 'left' 
+    : rightIcon 
+    ? 'right' 
+    : iconPosition;
+
   const baseClasses = 'mantis-button';
   const variantClass = `mantis-button--${variant}`;
   const sizeClass = `mantis-button--${size}`;
   const disabledClass = disabled || loading ? 'mantis-button--disabled' : '';
   const fullWidthClass = fullWidth ? 'mantis-button--full-width' : '';
   const loadingClass = loading ? 'mantis-button--loading' : '';
+  const iconOnlyClass = actualIcon && !children ? 'mantis-button--icon-only' : '';
 
   const buttonClasses = [
     baseClasses,
@@ -54,6 +71,7 @@ export const Button: React.FC<ButtonProps> = ({
     disabledClass,
     fullWidthClass,
     loadingClass,
+    iconOnlyClass,
     className
   ].filter(Boolean).join(' ');
 
@@ -84,17 +102,24 @@ export const Button: React.FC<ButtonProps> = ({
           </svg>
         </span>
       )}
-      {leftIcon && !loading && (
+      
+      {/* Render icon based on position */}
+      {actualIcon && !loading && actualIconPosition === 'left' && (
         <span className="mantis-button__icon mantis-button__icon--left">
-          {leftIcon}
+          {actualIcon}
         </span>
       )}
-      <span className="mantis-button__content">
-        {children}
-      </span>
-      {rightIcon && !loading && (
+      
+      {/* Render content only if there is text content */}
+      {children && (
+        <span className="mantis-button__content">
+          {children}
+        </span>
+      )}
+      
+      {actualIcon && !loading && actualIconPosition === 'right' && (
         <span className="mantis-button__icon mantis-button__icon--right">
-          {rightIcon}
+          {actualIcon}
         </span>
       )}
     </button>
