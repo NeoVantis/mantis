@@ -1,21 +1,28 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
 import './Animation.css';
-import { AnimationProps } from './Animation.types';
+import { 
+  AnimationProps, 
+  ANIMATION_DEFAULTS,
+  isValidEasing,
+  isValidTransformOrigin,
+  convertSimpleResponsiveConfig 
+} from './Animation.types';
 import { useInView } from './useInView';
 import { useResponsiveAnimation } from './useResponsiveAnimation';
 
 export const Animation: React.FC<AnimationProps> = ({
   children,
-  type = 'fadeIn',
-  duration = 300,
-  delay = 0,
-  triggerOnScroll = false,
-  repeat = false,
-  easing = 'ease-out',
-  isActive = true,
-  reduceMotion = false,
+  type = ANIMATION_DEFAULTS.type,
+  duration = ANIMATION_DEFAULTS.duration,
+  delay = ANIMATION_DEFAULTS.delay,
+  triggerOnScroll = ANIMATION_DEFAULTS.triggerOnScroll,
+  repeat = ANIMATION_DEFAULTS.repeat,
+  easing = ANIMATION_DEFAULTS.easing,
+  isActive = ANIMATION_DEFAULTS.isActive,
+  respectMotionPreference = ANIMATION_DEFAULTS.respectMotionPreference,
   config,
   responsive,
+  simpleResponsive,
   onAnimationStart,
   onAnimationEnd,
   onAnimationIteration,
@@ -28,30 +35,76 @@ export const Animation: React.FC<AnimationProps> = ({
   
   const inView = useInView(ref);
 
+  // Runtime validation with fallbacks
+  const validatedEasing = useMemo(() => {
+    if (!isValidEasing(easing)) {
+      console.warn(`Invalid easing value: "${easing}". Falling back to "${ANIMATION_DEFAULTS.easing}".`);
+      return ANIMATION_DEFAULTS.easing;
+    }
+    return easing;
+  }, [easing]);
+
+  const validatedTransformOrigin = useMemo(() => {
+    const origin = config?.transformOrigin || ANIMATION_DEFAULTS.transformOrigin;
+    if (!isValidTransformOrigin(origin)) {
+      console.warn(`Invalid transformOrigin value: "${origin}". Falling back to "${ANIMATION_DEFAULTS.transformOrigin}".`);
+      return ANIMATION_DEFAULTS.transformOrigin;
+    }
+    return origin;
+  }, [config?.transformOrigin]);
+
+  // Convert simple responsive config to full config if provided
+  const finalResponsiveConfig = useMemo(() => {
+    if (simpleResponsive) {
+      if (responsive) {
+        console.warn('Both responsive and simpleResponsive props provided. Using simpleResponsive.');
+      }
+      return convertSimpleResponsiveConfig(simpleResponsive);
+    }
+    return responsive;
+  }, [responsive, simpleResponsive]);
+
   // Get responsive configuration
-  const { currentConfig } = useResponsiveAnimation(responsive, {
+  const { currentConfig } = useResponsiveAnimation(finalResponsiveConfig, {
     type,
     duration,
     delay,
-    easing,
-    transformOrigin: config?.transformOrigin,
+    easing: validatedEasing,
+    transformOrigin: validatedTransformOrigin,
     direction: config?.direction,
     fillMode: config?.fillMode,
     iterationCount: config?.iterationCount,
   });
 
-  // Use responsive config values or fallback to props
+  // Use responsive config values or fallback to props/defaults
   const finalType = currentConfig.type || type;
   const finalDuration = currentConfig.duration || duration;
   const finalDelay = currentConfig.delay || delay;
-  const finalEasing = currentConfig.easing || easing;
-  const finalTransformOrigin = currentConfig.transformOrigin || config?.transformOrigin || 'center';
-  const finalDirection = currentConfig.direction || config?.direction || 'normal';
-  const finalFillMode = currentConfig.fillMode || config?.fillMode || 'both';
-  const finalIterationCount = currentConfig.iterationCount || config?.iterationCount || (repeat ? 'infinite' : 1);
+  const finalEasing = currentConfig.easing || validatedEasing;
   
-  // Skip animation if disabled at current breakpoint
-  const isDisabled = currentConfig.disabled || reduceMotion;
+  // Set sensible defaults for specific animation types
+  let defaultTransformOrigin = validatedTransformOrigin;
+  let defaultIterationCount = repeat ? 'infinite' : ANIMATION_DEFAULTS.iterationCount;
+  
+  if (finalType === 'scaleIn') {
+    defaultTransformOrigin = 'center'; // Always center for scale animations
+  }
+  
+  if (finalType === 'spin') {
+    defaultIterationCount = 'infinite'; // Always infinite for spin animations
+  }
+  
+  const finalTransformOrigin = currentConfig.transformOrigin || defaultTransformOrigin;
+  const finalDirection = currentConfig.direction || config?.direction || ANIMATION_DEFAULTS.direction;
+  const finalFillMode = currentConfig.fillMode || config?.fillMode || ANIMATION_DEFAULTS.fillMode;
+  const finalIterationCount = currentConfig.iterationCount || config?.iterationCount || defaultIterationCount;
+  
+  // Check for reduced motion preference - respect system settings by default
+  const prefersReducedMotion = typeof window !== 'undefined' && 
+    window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  
+  const isDisabled = currentConfig.disabled || 
+    (respectMotionPreference && prefersReducedMotion);
 
   // Handle scroll-triggered animations
   useEffect(() => {
@@ -126,6 +179,10 @@ export const Animation: React.FC<AnimationProps> = ({
       
       // Handle repeat with timeout to avoid memory leaks
       if (repeat && !triggerOnScroll && isActive && !isDisabled) {
+        // Clear any existing timeout to prevent race condition
+        if (animationEndTimeoutRef.current) {
+          clearTimeout(animationEndTimeoutRef.current);
+        }
         animationEndTimeoutRef.current = window.setTimeout(handleRepeatAnimation, 50);
       }
     }

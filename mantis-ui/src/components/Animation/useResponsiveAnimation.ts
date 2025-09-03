@@ -1,40 +1,25 @@
-import { useState, useEffect } from 'react';
+import { useMemo } from 'react';
 import { ResponsiveAnimationConfig, BreakpointConfig, UseResponsiveAnimationReturn } from './Animation.types';
-
-const getBreakpoint = (width: number): 'mobile' | 'tablet' | 'desktop' => {
-  if (width < 768) return 'mobile';
-  if (width < 1024) return 'tablet';
-  return 'desktop';
-};
+import { useResponsiveContext } from './ResponsiveContext';
 
 export const useResponsiveAnimation = (
   responsive?: ResponsiveAnimationConfig,
   baseConfig?: BreakpointConfig
 ): UseResponsiveAnimationReturn => {
-  const [windowWidth, setWindowWidth] = useState<number>(
-    typeof window !== 'undefined' ? window.innerWidth : 1024
-  );
+  // Use the global responsive context instead of individual window listeners
+  const { currentBreakpoint } = useResponsiveContext();
 
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
+  const currentConfig = useMemo((): BreakpointConfig => {
+    const breakpointConfig = responsive?.[currentBreakpoint];
+    
+    return {
+      ...baseConfig,
+      ...breakpointConfig,
     };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  const breakpoint = getBreakpoint(windowWidth);
-  
-  const currentConfig: BreakpointConfig = {
-    ...baseConfig,
-    ...(responsive?.[breakpoint] || {}),
-  };
+  }, [currentBreakpoint, responsive, baseConfig]);
 
   return {
     currentConfig,
-    breakpoint,
+    breakpoint: currentBreakpoint,
   };
 };

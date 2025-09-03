@@ -6,45 +6,6 @@
   perspective: 1000px;
 }
 
-/* Transform origin utilities */
-.mantis-animation-container[data-origin="top"] {
-  transform-origin: top;
-}
-
-.mantis-animation-container[data-origin="bottom"] {
-  transform-origin: bottom;
-}
-
-.mantis-animation-container[data-origin="left"] {
-  transform-origin: left;
-}
-
-.mantis-animation-container[data-origin="right"] {
-  transform-origin: right;
-}
-
-.mantis-animation-container[data-origin="top-left"] {
-  transform-origin: top left;
-}
-
-.mantis-animation-container[data-origin="top-right"] {
-  transform-origin: top right;
-}
-
-.mantis-animation-container[data-origin="bottom-left"] {
-  transform-origin: bottom left;
-}
-
-.mantis-animation-container[data-origin="bottom-right"] {
-  transform-origin: bottom right;
-}
-
-/* GPU acceleration utilities */
-.mantis-animation-container[data-gpu="true"] {
-  transform: translateZ(0);
-  will-change: transform, opacity;
-}
-
 /* Fade Animations - GPU optimized */
 @keyframes mantis-fade-in {
   from {
@@ -213,28 +174,6 @@
   animation-name: mantis-spin;
 }
 
-/* Responsive animation controls */
-@media (max-width: 767px) {
-  .mantis-animation-container[data-mobile="disabled"] {
-    animation: none !important;
-    transform: none !important;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 1023px) {
-  .mantis-animation-container[data-tablet="disabled"] {
-    animation: none !important;
-    transform: none !important;
-  }
-}
-
-@media (min-width: 1024px) {
-  .mantis-animation-container[data-desktop="disabled"] {
-    animation: none !important;
-    transform: none !important;
-  }
-}
-
 /* Accessibility: Respect reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .mantis-animation-container {
@@ -243,13 +182,4 @@
     transition-duration: 0.01ms !important;
     transform: none !important;
   }
-}
-
-/* Performance optimization classes */
-.mantis-animation-container.mantis-will-change {
-  will-change: transform, opacity;
-}
-
-.mantis-animation-container.mantis-gpu-accelerated {
-  transform: translateZ(0);
 }

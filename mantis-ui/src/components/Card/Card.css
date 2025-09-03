@@ -47,11 +47,19 @@
 }
 
 /* Hoverable State */
-.mantis-card--hoverable:hover,
-.mantis-card--interactive:hover {
+.mantis-card--hoverable:hover:not(.mantis-animation-container),
+.mantis-card--interactive:hover:not(.mantis-animation-container) {
   transform: translateY(-2px);
   box-shadow: var(--mantis-shadow-lg);
   border-color: var(--mantis-gray-300);
+}
+
+/* Don't apply hover transforms when inside an animation container */
+.mantis-animation-container .mantis-card--hoverable:hover,
+.mantis-animation-container .mantis-card--interactive:hover {
+  box-shadow: var(--mantis-shadow-lg);
+  border-color: var(--mantis-gray-300);
+  /* Don't transform - let the animation handle it */
 }
 
 .mantis-card--interactive:active {
