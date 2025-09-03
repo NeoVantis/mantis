@@ -1,6 +1,6 @@
 {
   "name": "mantis-ui-showcase",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Showcase web application for Mantis UI components",
   "private": true,
   "scripts": {

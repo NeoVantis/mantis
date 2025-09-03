@@ -476,7 +476,7 @@ function MyApp() {
                 borderRadius: '0.5rem',
                 border: '1px solid #e2e8f0'
               }}>
-                <p style={{ margin: '0 0 0.5rem 0', fontWeight: '500' }}>Mantis UI v1.0.0</p>
+                <p style={{ margin: '0 0 0.5rem 0', fontWeight: '500' }}>Mantis UI v1.1.0</p>
                 <p style={{ margin: '0 0 0.5rem 0', color: '#64748b' }}>Built for NeoVantis internal websites</p>
                 <p style={{ margin: 0, color: '#64748b', fontSize: '0.875rem' }}>
                   Components: Button, Card, Table, Sidebar, Animation
@@ -518,7 +518,7 @@ function MyApp() {
         footer={
           !sidebarCollapsed && (
             <div style={{ fontSize: '0.75rem', color: '#64748b' }}>
-              v1.0.0 • NeoVantis
+              v1.1.0 • NeoVantis
             </div>
           )
         }

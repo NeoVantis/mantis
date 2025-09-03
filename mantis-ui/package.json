@@ -1,6 +1,6 @@
 {
   "name": "mantis-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A powerful UI component library for internal websites",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
