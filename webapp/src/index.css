@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 /* Global Styles for Mantis UI Showcase */
 body {
   margin: 0;
