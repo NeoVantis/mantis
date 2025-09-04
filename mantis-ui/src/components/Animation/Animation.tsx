@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import './Animation.css';
 import { 
   AnimationProps, 
   ANIMATION_DEFAULTS,
@@ -133,10 +132,22 @@ export const Animation: React.FC<AnimationProps> = ({
   }, []);
 
   // Generate animation class name
-  const animationClass = useMemo(
-    () => `mantis-animate-${finalType.replace(/([A-Z])/g, '-$1').toLowerCase()}`,
-    [finalType]
-  );
+  const animationClass = useMemo(() => {
+    const typeMap: Record<string, string> = {
+      'fadeIn': 'animate-mantis-fade-in',
+      'fadeOut': 'animate-mantis-fade-out',
+      'slideInRight': 'animate-mantis-slide-in-right',
+      'slideInLeft': 'animate-mantis-slide-in-left',
+      'slideInUp': 'animate-mantis-slide-in-up',
+      'slideInDown': 'animate-mantis-slide-in-down',
+      'scaleIn': 'animate-mantis-scale-in',
+      'bounce': 'animate-mantis-bounce',
+      'pulse': 'animate-mantis-pulse',
+      'spin': 'animate-mantis-spin',
+    };
+    
+    return typeMap[finalType] || `animate-mantis-${finalType.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+  }, [finalType]);
 
   // Build optimized inline styles
   const style = useMemo(() => {
@@ -150,6 +161,9 @@ export const Animation: React.FC<AnimationProps> = ({
       animationDirection: finalDirection,
       animationFillMode: finalFillMode,
       animationIterationCount: finalIterationCount,
+      // Performance optimizations
+      backfaceVisibility: 'hidden',
+      perspective: '1000px',
     };
 
     return baseStyles;
@@ -197,7 +211,9 @@ export const Animation: React.FC<AnimationProps> = ({
 
   // Build CSS classes
   const classes = useMemo(() => {
-    const baseClasses = ['mantis-animation-container'];
+    const baseClasses = [
+      // Performance optimizations using inline styles since Tailwind doesn't have all these utilities
+    ];
     
     if (shouldAnimate && isActive && !isDisabled) {
       baseClasses.push(animationClass);

@@ -45,9 +45,4 @@ export type {
 } from './components/Animation';
 
 // Styles
-import './styles/base.css';
-import './components/Button/Button.css';
-import './components/Card/Card.css';
-import './components/Sidebar/Sidebar.css';
-import './components/Table/Table.css';
-import './components/Animation/Animation.css';
+import './styles/tailwind.css';
