@@ -67,7 +67,7 @@ export const Card: React.FC<CardProps> = ({
       'hover:-translate-y-0.5'
     );
   }
-  
+
   if (onClick) {
     interactiveClasses.push(
       'cursor-pointer',

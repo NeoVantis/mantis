@@ -1,10 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState, useCallback } from 'react';
-import { 
-  AnimationProps, 
+import {
+  AnimationProps,
   ANIMATION_DEFAULTS,
   isValidEasing,
   isValidTransformOrigin,
-  convertSimpleResponsiveConfig 
+  convertSimpleResponsiveConfig
 } from './Animation.types';
 import { useInView } from './useInView';
 import { useResponsiveAnimation } from './useResponsiveAnimation';
@@ -31,7 +31,7 @@ export const Animation: React.FC<AnimationProps> = ({
   const animationEndTimeoutRef = useRef<number>();
   const [shouldAnimate, setShouldAnimate] = useState(!triggerOnScroll);
   const [animationKey, setAnimationKey] = useState(0);
-  
+
   const inView = useInView(ref);
 
   // Runtime validation with fallbacks
@@ -80,29 +80,29 @@ export const Animation: React.FC<AnimationProps> = ({
   const finalDuration = currentConfig.duration || duration;
   const finalDelay = currentConfig.delay || delay;
   const finalEasing = currentConfig.easing || validatedEasing;
-  
+
   // Set sensible defaults for specific animation types
   let defaultTransformOrigin = validatedTransformOrigin;
   let defaultIterationCount = repeat ? 'infinite' : ANIMATION_DEFAULTS.iterationCount;
-  
+
   if (finalType === 'scaleIn') {
     defaultTransformOrigin = 'center'; // Always center for scale animations
   }
-  
+
   if (finalType === 'spin') {
     defaultIterationCount = 'infinite'; // Always infinite for spin animations
   }
-  
+
   const finalTransformOrigin = currentConfig.transformOrigin || defaultTransformOrigin;
   const finalDirection = currentConfig.direction || config?.direction || ANIMATION_DEFAULTS.direction;
   const finalFillMode = currentConfig.fillMode || config?.fillMode || ANIMATION_DEFAULTS.fillMode;
   const finalIterationCount = currentConfig.iterationCount || config?.iterationCount || defaultIterationCount;
-  
+
   // Check for reduced motion preference - respect system settings by default
-  const prefersReducedMotion = typeof window !== 'undefined' && 
+  const prefersReducedMotion = typeof window !== 'undefined' &&
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  
-  const isDisabled = currentConfig.disabled || 
+
+  const isDisabled = currentConfig.disabled ||
     (respectMotionPreference && prefersReducedMotion);
 
   // Handle scroll-triggered animations
@@ -145,7 +145,7 @@ export const Animation: React.FC<AnimationProps> = ({
       'pulse': 'animate-mantis-pulse',
       'spin': 'animate-mantis-spin',
     };
-    
+
     return typeMap[finalType] || `animate-mantis-${finalType.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
   }, [finalType]);
 
@@ -190,7 +190,7 @@ export const Animation: React.FC<AnimationProps> = ({
     // Only trigger for our animations, not child animations
     if (event.target === event.currentTarget) {
       onAnimationEnd?.(finalType);
-      
+
       // Handle repeat with timeout to avoid memory leaks
       if (repeat && !triggerOnScroll && isActive && !isDisabled) {
         // Clear any existing timeout to prevent race condition
@@ -214,7 +214,7 @@ export const Animation: React.FC<AnimationProps> = ({
     const baseClasses = [
       // Performance optimizations using inline styles since Tailwind doesn't have all these utilities
     ];
-    
+
     if (shouldAnimate && isActive && !isDisabled) {
       baseClasses.push(animationClass);
     }

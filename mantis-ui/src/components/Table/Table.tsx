@@ -69,15 +69,15 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
 
   const renderCell = (column: TableColumn<T>, record: T, index: number) => {
     const { dataIndex, render } = column;
-    
+
     if (render) {
       return render(dataIndex ? (record as any)[dataIndex] : record, record, index);
     }
-    
+
     if (dataIndex) {
       return (record as any)[dataIndex];
     }
-    
+
     return null;
   };
 
@@ -143,7 +143,7 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
             </div>
           </div>
         )}
-        
+
         <table className={tableClasses}>
           <thead className="bg-mantis-gray-50">
             <tr>
@@ -180,7 +180,7 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
           <tbody className="bg-mantis-white">
             {dataSource.length === 0 ? (
               <tr>
-                <td 
+                <td
                   colSpan={columns.length}
                   className={[
                     'text-center',
@@ -221,7 +221,7 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
             )}
           </tbody>
         </table>
-        
+
         {pagination && dataSource.length > 0 && (
           <div className="flex justify-between items-center p-mantis-4 border-t border-mantis-gray-200 bg-mantis-gray-50">
             <div className="text-mantis-sm text-mantis-gray-600">

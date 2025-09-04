@@ -41,7 +41,7 @@ const SidebarItemComponent: React.FC<{
 }> = ({ item, level, isCollapsed }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const hasChildren = item.children && item.children.length > 0;
-  
+
   const handleItemClick = () => {
     if (hasChildren && !isCollapsed) {
       setIsExpanded(!isExpanded);
@@ -74,11 +74,11 @@ const SidebarItemComponent: React.FC<{
     itemStateClasses.push('bg-mantis-primary', 'text-mantis-white', 'hover:bg-mantis-primary-dark');
   }
 
-  const itemPaddingClasses = isCollapsed 
+  const itemPaddingClasses = isCollapsed
     ? ['justify-center', 'p-mantis-3']
-    : level === 0 
-    ? ['px-mantis-4', 'py-mantis-3', 'gap-mantis-3']
-    : ['pl-mantis-6', 'pr-mantis-4', 'py-mantis-3', 'gap-mantis-3', 'text-mantis-xs'];
+    : level === 0
+      ? ['px-mantis-4', 'py-mantis-3', 'gap-mantis-3']
+      : ['pl-mantis-6', 'pr-mantis-4', 'py-mantis-3', 'gap-mantis-3', 'text-mantis-xs'];
 
   const itemClasses = [
     ...itemBaseClasses,
@@ -149,14 +149,14 @@ const SidebarItemComponent: React.FC<{
           )}
         </button>
       )}
-      
+
       {hasChildren && isExpanded && !isCollapsed && (
         <div className="bg-mantis-gray-50 border-l-2 border-mantis-primary ml-mantis-4">
           {item.children!.map((child: SidebarItem) => (
-            <SidebarItemComponent 
+            <SidebarItemComponent
               key={child.id}
-              item={child} 
-              level={level + 1} 
+              item={child}
+              level={level + 1}
               isCollapsed={isCollapsed}
             />
           ))}
@@ -179,9 +179,9 @@ export const Sidebar: React.FC<SidebarProps> = ({
   footer,
 }) => {
   const [internalCollapsed, setInternalCollapsed] = useState(defaultCollapsed);
-  
+
   const isCollapsed = controlledCollapsed !== undefined ? controlledCollapsed : internalCollapsed;
-  
+
   const handleToggleCollapse = () => {
     const newCollapsed = !isCollapsed;
     if (controlledCollapsed === undefined) {
@@ -240,18 +240,18 @@ export const Sidebar: React.FC<SidebarProps> = ({
           )}
         </div>
       )}
-      
+
       <nav className="flex-1 py-mantis-2 overflow-y-auto overflow-x-hidden">
         {items.map((item: SidebarItem) => (
-          <SidebarItemComponent 
+          <SidebarItemComponent
             key={item.id}
-            item={item} 
-            level={0} 
+            item={item}
+            level={0}
             isCollapsed={isCollapsed}
           />
         ))}
       </nav>
-      
+
       {footer && !isCollapsed && (
         <div className="p-mantis-4 border-t border-mantis-gray-200 bg-mantis-gray-50">
           {footer}
