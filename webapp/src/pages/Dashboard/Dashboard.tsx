@@ -12,7 +12,6 @@ const Dashboard = ({ onPageChange }: DashboardProps) => {
         <h1>Mantis UI Showcase</h1>
         <p>A powerful and lightweight component library for internal websites</p>
       </div>
-
       <WelcomeSection onPageChange={onPageChange} />
       <GettingStartedSection />
     </>
