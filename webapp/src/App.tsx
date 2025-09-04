@@ -1,31 +1,16 @@
-import { useState } from 'react';
 import { MainLayout } from './components/layout';
 import { Dashboard } from './pages/Dashboard';
 import { ButtonPage, CardPage, TablePage } from './pages/Components';
 import { AnimationsPage } from './pages/Animations';
 import { SettingsPage } from './pages/Settings';
+import { useAnimationReset, usePageNavigation, useButtonLoading } from './hooks';
 import './App.css';
 
 function App() {
-  const [buttonLoading, setButtonLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState('dashboard');
-  const [animationKeys, setAnimationKeys] = useState<Record<string, number>>({});
-
-  const resetAnimations = (cardId: string) => {
-    setAnimationKeys(prev => ({
-      ...prev,
-      [cardId]: Date.now()
-    }));
-  };
-
-  const handleLoadingDemo = () => {
-    setButtonLoading(true);
-    setTimeout(() => setButtonLoading(false), 2000);
-  };
-
-  const handleSidebarItemClick = (itemId: string) => {
-    setCurrentPage(itemId);
-  };
+  // Use custom hooks for state management
+  const { animationKeys, resetAnimations } = useAnimationReset();
+  const { currentPage, handleSidebarItemClick } = usePageNavigation();
+  const { buttonLoading, handleLoadingDemo } = useButtonLoading();
 
   // Render different content based on current page
   const renderPageContent = () => {

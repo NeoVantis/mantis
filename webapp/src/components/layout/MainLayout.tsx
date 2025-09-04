@@ -1,5 +1,6 @@
-import { useState, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { Sidebar, SidebarItem, ResponsiveProvider } from 'mantis-ui';
+import { useSidebar } from '../../hooks';
 
 // Sidebar navigation items
 const getSidebarItems = (handleClick: (id: string) => void, currentPage: string): SidebarItem[] => [
@@ -80,7 +81,8 @@ interface MainLayoutProps {
 }
 
 const MainLayout = ({ children, currentPage, onPageChange }: MainLayoutProps) => {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  // Use custom hook for sidebar state
+  const { sidebarCollapsed, setSidebarCollapsed } = useSidebar();
 
   const sidebarItems = getSidebarItems(onPageChange, currentPage);
 
