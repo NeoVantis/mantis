@@ -54,7 +54,7 @@ export const Card: React.FC<CardProps> = ({
   const paddingClasses = {
     sm: 'p-mantis-3',
     md: 'p-mantis-4',
-    lg: 'p-mantis-6 md:p-mantis-6', // Responsive: p-4 on mobile
+    lg: 'p-mantis-6 md:p-mantis-6', // Same padding (p-mantis-6) on mobile and medium 
     none: '',
   };
 

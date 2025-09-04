@@ -33,7 +33,7 @@ export interface SidebarProps {
   footer?: React.ReactNode;
 }
 
-// Separate component for sidebar items to properly use hooks
+//  SidebarItemComponent is separated as its own component to ensure proper usage of React hooks (like useState).
 const SidebarItemComponent: React.FC<{
   item: SidebarItem;
   level: number;
