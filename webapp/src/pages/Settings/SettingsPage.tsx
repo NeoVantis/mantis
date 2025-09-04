@@ -1,6 +1,6 @@
 import { Button, Card } from 'mantis-ui';
 
-export function SettingsPage() {
+const SettingsPage = () => {
   return (
     <div className="showcase-section">
       <h1>Settings</h1>
@@ -36,4 +36,6 @@ export function SettingsPage() {
       </Card>
     </div>
   );
-}
+};
+
+export default SettingsPage;
