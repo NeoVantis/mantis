@@ -1,9 +1,8 @@
-import typescript from "rollup-plugin-typescript2";
-import postcss from "rollup-plugin-postcss";
-import { defineConfig } from "rollup";
-import ts from "typescript";
+const typescript = require("rollup-plugin-typescript2");
+const postcss = require("rollup-plugin-postcss");
+const ts = require("typescript");
 
-export default defineConfig({
+module.exports = {
   input: "src/index.ts",
   output: [
     {
@@ -29,4 +28,4 @@ export default defineConfig({
       useTsconfigDeclarationDir: true,
     }),
   ],
-});
+};

@@ -1,5 +1,4 @@
 import React from 'react';
-import './Table.css';
 
 export interface TableColumn<T = Record<string, any>> {
   key: string;
@@ -65,121 +64,154 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
     if (typeof rowKey === 'function') {
       return rowKey(record);
     }
-
     return (record as any)[rowKey] || index.toString();
   };
 
   const renderCell = (column: TableColumn<T>, record: T, index: number) => {
     const { dataIndex, render } = column;
-    
+
     if (render) {
       return render(dataIndex ? (record as any)[dataIndex] : record, record, index);
     }
-    
+
     if (dataIndex) {
       return (record as any)[dataIndex];
     }
-    
+
     return null;
   };
 
-  const baseClasses = 'mantis-table';
-  const borderedClass = bordered ? 'mantis-table--bordered' : '';
-  const hoverableClass = hoverable ? 'mantis-table--hoverable' : '';
-  const stripedClass = striped ? 'mantis-table--striped' : '';
-  const sizeClass = `mantis-table--${size}`;
-  const responsiveClass = responsive ? 'mantis-table--responsive' : '';
-  const loadingClass = loading ? 'mantis-table--loading' : '';
+  // Size classes
+  const sizeClasses = {
+    sm: {
+      table: 'text-mantis-sm',
+      cell: 'px-mantis-3 py-mantis-2',
+    },
+    md: {
+      table: 'text-mantis-base',
+      cell: 'px-mantis-4 py-mantis-3',
+    },
+    lg: {
+      table: 'text-mantis-lg',
+      cell: 'px-mantis-5 py-mantis-4',
+    },
+  };
 
+  // Table base classes
   const tableClasses = [
-    baseClasses,
-    borderedClass,
-    hoverableClass,
-    stripedClass,
-    sizeClass,
-    responsiveClass,
-    loadingClass,
-    className
+    'w-full',
+    'border-collapse',
+    'border-spacing-0',
+    'font-mantis',
+    'bg-mantis-white',
+    sizeClasses[size].table,
+    ...(bordered ? ['border', 'border-mantis-gray-200'] : []),
+    className,
   ].filter(Boolean).join(' ');
 
-  const wrapperClasses = responsive ? 'mantis-table-wrapper' : '';
+  // Row classes
+  const getRowClasses = (index: number) => [
+    'transition-mantis-colors',
+    ...(onRowClick ? ['cursor-pointer'] : []),
+    ...(hoverable ? ['hover:bg-mantis-gray-50'] : []),
+    ...(striped && index % 2 === 1 ? ['bg-mantis-gray-50'] : []),
+    ...(striped && hoverable && index % 2 === 1 ? ['hover:bg-mantis-gray-100'] : []),
+  ].filter(Boolean).join(' ');
+
+  // Cell alignment classes
+  const getAlignClass = (align?: 'left' | 'center' | 'right') => {
+    switch (align) {
+      case 'center': return 'text-center';
+      case 'right': return 'text-right';
+      default: return 'text-left';
+    }
+  };
+
+  const wrapperClasses = responsive ? 'w-full overflow-x-auto' : 'w-full';
 
   return (
     <div className={wrapperClasses}>
-      <div className="mantis-table-container">
+      <div className="relative w-full min-w-full">
+        {loading && (
+          <div className="absolute inset-0 bg-mantis-white bg-opacity-75 flex items-center justify-center z-10">
+            <div className="flex items-center gap-mantis-2">
+              <svg className="animate-mantis-spin w-5 h-5 text-mantis-primary" viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25" />
+                <path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" className="opacity-75" />
+              </svg>
+              <span className="text-mantis-gray-600">Loading...</span>
+            </div>
+          </div>
+        )}
+
         <table className={tableClasses}>
-          <thead className="mantis-table__head">
-            <tr className="mantis-table__row">
+          <thead className="bg-mantis-gray-50">
+            <tr>
               {columns.map((column) => (
                 <th
                   key={column.key}
-                  className={`mantis-table__header-cell mantis-table__header-cell--${column.align || 'left'}`}
+                  className={[
+                    'font-semibold',
+                    'text-mantis-gray-900',
+                    'border-b-2',
+                    'border-mantis-gray-200',
+                    'relative',
+                    'whitespace-nowrap',
+                    sizeClasses[size].cell,
+                    getAlignClass(column.align),
+                    ...(bordered ? ['border-r', 'border-mantis-gray-200', 'last:border-r-0'] : []),
+                  ].filter(Boolean).join(' ')}
                   style={{ width: column.width }}
                 >
-                  {column.title}
-                  {column.sortable && (
-                    <span className="mantis-table__sort-icon">
-                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M7 14L12 9L17 14"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  )}
+                  <div className="flex items-center gap-mantis-1">
+                    {column.title}
+                    {column.sortable && (
+                      <span className="inline-flex items-center opacity-50 transition-opacity hover:opacity-100">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+                          <path d="M7 14L12 9L17 14H7Z" fill="currentColor" />
+                        </svg>
+                      </span>
+                    )}
+                  </div>
                 </th>
               ))}
             </tr>
           </thead>
-          <tbody className="mantis-table__body">
-            {loading ? (
+          <tbody className="bg-mantis-white">
+            {dataSource.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="mantis-table__loading-cell">
-                  <div className="mantis-table__loading">
-                    <div className="mantis-animate-spin">
-                      <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <circle 
-                          cx="12" 
-                          cy="12" 
-                          r="10" 
-                          stroke="currentColor" 
-                          strokeWidth="4" 
-                          className="opacity-25"
-                        />
-                        <path 
-                          fill="currentColor" 
-                          d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                          className="opacity-75"
-                        />
-                      </svg>
-                    </div>
-                    <span>Loading...</span>
-                  </div>
-                </td>
-              </tr>
-            ) : dataSource.length === 0 ? (
-              <tr>
-                <td colSpan={columns.length} className="mantis-table__empty-cell">
-                  <div className="mantis-table__empty">
-                    {emptyText}
-                  </div>
+                <td
+                  colSpan={columns.length}
+                  className={[
+                    'text-center',
+                    'text-mantis-gray-500',
+                    'border-b',
+                    'border-mantis-gray-200',
+                    sizeClasses[size].cell,
+                  ].join(' ')}
+                >
+                  {emptyText}
                 </td>
               </tr>
             ) : (
               dataSource.map((record, index) => (
                 <tr
                   key={getRowKey(record, index)}
-                  className={`mantis-table__row ${onRowClick ? 'mantis-table__row--clickable' : ''}`}
+                  className={getRowClasses(index)}
                   onClick={() => onRowClick?.(record, index)}
                 >
                   {columns.map((column) => (
                     <td
                       key={column.key}
-                      className={`mantis-table__cell mantis-table__cell--${column.align || 'left'}`}
-                      style={{ width: column.width }}
+                      className={[
+                        'border-b',
+                        'border-mantis-gray-200',
+                        'text-mantis-gray-700',
+                        'align-middle',
+                        sizeClasses[size].cell,
+                        getAlignClass(column.align),
+                        ...(bordered ? ['border-r', 'border-mantis-gray-200', 'last:border-r-0'] : []),
+                      ].filter(Boolean).join(' ')}
                     >
                       {renderCell(column, record, index)}
                     </td>
@@ -189,16 +221,15 @@ export const Table = <T extends Record<string, any> = Record<string, any>>({
             )}
           </tbody>
         </table>
-      </div>
-      
-      {pagination && dataSource.length > 0 && (
-        <div className="mantis-table__pagination">
-          {/* Pagination component would go here */}
-          <div className="mantis-table__pagination-info">
-            Showing {dataSource.length} items
+
+        {pagination && dataSource.length > 0 && (
+          <div className="flex justify-between items-center p-mantis-4 border-t border-mantis-gray-200 bg-mantis-gray-50">
+            <div className="text-mantis-sm text-mantis-gray-600">
+              Showing {dataSource.length} items
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
