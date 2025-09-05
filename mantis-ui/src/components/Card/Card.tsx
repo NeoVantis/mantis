@@ -34,27 +34,27 @@ export const Card: React.FC<CardProps> = ({
   const baseClasses = [
     'flex',
     'flex-col',
-    'bg-mantis-white',
-    'rounded-mantis-lg',
+    'bg-white',
+    'rounded-lg',
     'transition-all',
-    'duration-mantis-base',
+    'duration-200',
     'overflow-hidden',
     'relative',
   ];
 
   // Variant classes
   const variantClasses = {
-    default: ['border', 'border-mantis-gray-200'],
-    outlined: ['border-2', 'border-mantis-gray-300'],
-    elevated: ['border', 'border-mantis-gray-200', 'shadow-mantis-md'],
-    interactive: ['border', 'border-mantis-gray-200', 'cursor-pointer'],
+    default: ['border', 'border-gray-200'],
+    outlined: ['border-2', 'border-gray-300'],
+    elevated: ['border', 'border-gray-200', 'shadow-md'],
+    interactive: ['border', 'border-gray-200', 'cursor-pointer'],
   };
 
   // Padding classes
   const paddingClasses = {
-    sm: 'p-mantis-3',
-    md: 'p-mantis-4',
-    lg: 'p-mantis-6 md:p-mantis-6', // Same padding (p-mantis-6) on mobile and medium 
+    sm: 'p-3',
+    md: 'p-4',
+    lg: 'p-6 md:p-6',
     none: '',
   };
 
@@ -62,8 +62,8 @@ export const Card: React.FC<CardProps> = ({
   const interactiveClasses = [];
   if (hoverable || onClick) {
     interactiveClasses.push(
-      'hover:shadow-mantis-lg',
-      'hover:border-mantis-gray-300',
+      'hover:shadow-lg',
+      'hover:border-gray-300',
       'hover:-translate-y-0.5'
     );
   }
@@ -72,10 +72,10 @@ export const Card: React.FC<CardProps> = ({
     interactiveClasses.push(
       'cursor-pointer',
       'focus-visible:outline-2',
-      'focus-visible:outline-mantis-primary',
+      'focus-visible:outline-blue-600',
       'focus-visible:outline-offset-2',
       'active:translate-y-0',
-      'active:shadow-mantis-md'
+      'active:shadow-md'
     );
   }
 
@@ -90,18 +90,18 @@ export const Card: React.FC<CardProps> = ({
 
   // Header classes
   const headerClasses = {
-    sm: '-m-mantis-3 mb-mantis-3 p-mantis-3',
-    md: '-m-mantis-4 mb-mantis-4 p-mantis-4',
-    lg: '-m-mantis-6 mb-mantis-6 p-mantis-6 md:-m-mantis-6 md:mb-mantis-6 md:p-mantis-6',
-    none: 'p-mantis-4',
+    sm: '-m-3 mb-3 p-3',
+    md: '-m-4 mb-4 p-4',
+    lg: '-m-6 mb-6 p-6 md:-m-6 md:mb-6 md:p-6',
+    none: 'p-4',
   };
 
   // Footer classes  
   const footerClasses = {
-    sm: 'mt-mantis-3 -m-mantis-3 p-mantis-3',
-    md: 'mt-mantis-4 -m-mantis-4 p-mantis-4',
-    lg: 'mt-mantis-6 -m-mantis-6 p-mantis-6 md:mt-mantis-6 md:-m-mantis-6 md:p-mantis-6',
-    none: 'p-mantis-4',
+    sm: 'mt-3 -m-3 p-3',
+    md: 'mt-4 -m-4 p-4',
+    lg: 'mt-6 -m-6 p-6 md:mt-6 md:-m-6 md:p-6',
+    none: 'p-4',
   };
 
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -127,7 +127,7 @@ export const Card: React.FC<CardProps> = ({
       {...props}
     >
       {header && (
-        <div className={`border-b border-mantis-gray-200 bg-mantis-gray-50 ${headerClasses[padding]}`}>
+        <div className={`border-b border-gray-200 bg-gray-50 ${headerClasses[padding]}`}>
           {header}
         </div>
       )}
@@ -135,7 +135,7 @@ export const Card: React.FC<CardProps> = ({
         {children}
       </div>
       {footer && (
-        <div className={`border-t border-mantis-gray-200 bg-mantis-gray-50 ${footerClasses[padding]}`}>
+        <div className={`border-t border-gray-200 bg-gray-50 ${footerClasses[padding]}`}>
           {footer}
         </div>
       )}

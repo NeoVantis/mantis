@@ -55,30 +55,30 @@ const SidebarItemComponent: React.FC<{
     'flex',
     'items-center',
     'w-full',
-    'text-mantis-gray-700',
+    'text-gray-700',
     'no-underline',
     'border-none',
     'bg-transparent',
     'cursor-pointer',
-    'transition-mantis-colors',
-    'text-mantis-sm',
+    'transition-colors',
+    'text-sm',
     'font-medium',
     'text-left',
     'min-h-10',
-    'hover:bg-mantis-gray-100',
-    'hover:text-mantis-gray-900',
+    'hover:bg-gray-100',
+    'hover:text-gray-900',
   ];
 
   const itemStateClasses = [];
   if (item.isActive) {
-    itemStateClasses.push('bg-mantis-primary', 'text-mantis-white', 'hover:bg-mantis-primary-dark');
+    itemStateClasses.push('bg-blue-100', 'text-blue-900', 'hover:bg-blue-200');
   }
 
   const itemPaddingClasses = isCollapsed
-    ? ['justify-center', 'p-mantis-3']
+    ? ['justify-center', 'p-3']
     : level === 0
-      ? ['px-mantis-4', 'py-mantis-3', 'gap-mantis-3']
-      : ['pl-mantis-6', 'pr-mantis-4', 'py-mantis-3', 'gap-mantis-3', 'text-mantis-xs'];
+      ? ['px-4', 'py-3', 'gap-3']
+      : ['pl-8', 'pr-4', 'py-3', 'gap-3', 'text-xs'];
 
   const itemClasses = [
     ...itemBaseClasses,
@@ -105,7 +105,7 @@ const SidebarItemComponent: React.FC<{
             </span>
           )}
           {hasChildren && !isCollapsed && (
-            <span className={`flex items-center justify-center flex-shrink-0 transition-transform duration-mantis-base ${isExpanded ? 'rotate-90' : ''}`}>
+            <span className={`flex items-center justify-center flex-shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M9 18L15 12L9 6"
@@ -135,7 +135,7 @@ const SidebarItemComponent: React.FC<{
             </span>
           )}
           {hasChildren && !isCollapsed && (
-            <span className={`flex items-center justify-center flex-shrink-0 transition-transform duration-mantis-base ${isExpanded ? 'rotate-90' : ''}`}>
+            <span className={`flex items-center justify-center flex-shrink-0 transition-transform duration-200 ${isExpanded ? 'rotate-90' : ''}`}>
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none">
                 <path
                   d="M9 18L15 12L9 6"
@@ -151,7 +151,7 @@ const SidebarItemComponent: React.FC<{
       )}
 
       {hasChildren && isExpanded && !isCollapsed && (
-        <div className="bg-mantis-gray-50 border-l-2 border-mantis-primary ml-mantis-4">
+        <div className="bg-gray-50 border-l-2 border-blue-600 ml-4">
           {item.children!.map((child: SidebarItem) => (
             <SidebarItemComponent
               key={child.id}
@@ -194,13 +194,13 @@ export const Sidebar: React.FC<SidebarProps> = ({
   const sidebarClasses = [
     'flex',
     'flex-col',
-    'bg-mantis-white',
+    'bg-white',
     'border-r',
-    'border-mantis-gray-200',
+    'border-gray-200',
     'h-screen',
     'relative',
     'transition-all',
-    'duration-mantis-base',
+    'duration-200',
     'md:relative',
     'md:translate-x-0',
     // Mobile responsive classes
@@ -219,11 +219,11 @@ export const Sidebar: React.FC<SidebarProps> = ({
   return (
     <aside className={sidebarClasses} style={sidebarStyle}>
       {header && (
-        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} p-mantis-4 border-b border-mantis-gray-200 bg-mantis-gray-50 min-h-16`}>
+        <div className={`flex items-center ${isCollapsed ? 'justify-center' : 'justify-between'} p-4 border-b border-gray-200 bg-gray-50 min-h-16`}>
           {!isCollapsed && header}
           {collapsible && (
             <button
-              className="flex items-center justify-center bg-transparent border-none p-mantis-2 rounded-mantis-md cursor-pointer text-mantis-gray-600 transition-mantis-colors hover:bg-mantis-gray-200 hover:text-mantis-gray-900"
+              className="flex items-center justify-center bg-transparent border-none p-2 rounded-md cursor-pointer text-gray-600 transition-colors hover:bg-gray-200 hover:text-gray-900"
               onClick={handleToggleCollapse}
               aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
             >
@@ -241,7 +241,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
         </div>
       )}
 
-      <nav className="flex-1 py-mantis-2 overflow-y-auto overflow-x-hidden">
+      <nav className="flex-1 py-2 overflow-y-auto overflow-x-hidden">
         {items.map((item: SidebarItem) => (
           <SidebarItemComponent
             key={item.id}
@@ -253,7 +253,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
       </nav>
 
       {footer && !isCollapsed && (
-        <div className="p-mantis-4 border-t border-mantis-gray-200 bg-mantis-gray-50">
+        <div className="p-4 border-t border-gray-200 bg-gray-50">
           {footer}
         </div>
       )}

@@ -85,15 +85,16 @@ export const Animation: React.FC<AnimationProps> = ({
   let defaultTransformOrigin = validatedTransformOrigin;
   let defaultIterationCount = repeat ? 'infinite' : ANIMATION_DEFAULTS.iterationCount;
 
-  if (finalType === 'scaleIn') {
-    defaultTransformOrigin = 'center'; // Always center for scale animations
+  // Only set default transform origin if no custom config is provided
+  if (finalType === 'scaleIn' && !config?.transformOrigin && !currentConfig.transformOrigin) {
+    defaultTransformOrigin = 'center'; // Only use center as default when no custom value provided
   }
 
   if (finalType === 'spin') {
     defaultIterationCount = 'infinite'; // Always infinite for spin animations
   }
 
-  const finalTransformOrigin = currentConfig.transformOrigin || defaultTransformOrigin;
+  const finalTransformOrigin = currentConfig.transformOrigin || config?.transformOrigin || defaultTransformOrigin;
   const finalDirection = currentConfig.direction || config?.direction || ANIMATION_DEFAULTS.direction;
   const finalFillMode = currentConfig.fillMode || config?.fillMode || ANIMATION_DEFAULTS.fillMode;
   const finalIterationCount = currentConfig.iterationCount || config?.iterationCount || defaultIterationCount;
@@ -134,19 +135,19 @@ export const Animation: React.FC<AnimationProps> = ({
   // Generate animation class name
   const animationClass = useMemo(() => {
     const typeMap: Record<string, string> = {
-      'fadeIn': 'animate-mantis-fade-in',
-      'fadeOut': 'animate-mantis-fade-out',
-      'slideInRight': 'animate-mantis-slide-in-right',
-      'slideInLeft': 'animate-mantis-slide-in-left',
-      'slideInUp': 'animate-mantis-slide-in-up',
-      'slideInDown': 'animate-mantis-slide-in-down',
-      'scaleIn': 'animate-mantis-scale-in',
-      'bounce': 'animate-mantis-bounce',
-      'pulse': 'animate-mantis-pulse',
-      'spin': 'animate-mantis-spin',
+      'fadeIn': 'animate-fade-in',
+      'fadeOut': 'animate-fade-out', 
+      'slideInRight': 'animate-slide-in-right',
+      'slideInLeft': 'animate-slide-in-left',
+      'slideInUp': 'animate-slide-in-up', 
+      'slideInDown': 'animate-slide-in-down',
+      'scaleIn': 'animate-scale-in',
+      'bounce': 'animate-bounce',
+      'pulse': 'animate-pulse',
+      'spin': 'animate-spin',
     };
 
-    return typeMap[finalType] || `animate-mantis-${finalType.replace(/([A-Z])/g, '-$1').toLowerCase()}`;
+    return typeMap[finalType] || 'animate-pulse';
   }, [finalType]);
 
   // Build optimized inline styles
@@ -155,16 +156,17 @@ export const Animation: React.FC<AnimationProps> = ({
 
     const baseStyles: React.CSSProperties = {
       transformOrigin: finalTransformOrigin,
-      animationDuration: `${finalDuration}ms`,
-      animationDelay: `${finalDelay}ms`,
-      animationTimingFunction: finalEasing,
+      // Use CSS custom properties so CSS animation classes can access them
+      '--animation-duration': `${finalDuration}ms`,
+      '--animation-delay': `${finalDelay}ms`, 
+      '--animation-timing': finalEasing,
       animationDirection: finalDirection,
       animationFillMode: finalFillMode,
       animationIterationCount: finalIterationCount,
       // Performance optimizations
       backfaceVisibility: 'hidden',
       perspective: '1000px',
-    };
+    } as React.CSSProperties;
 
     return baseStyles;
   }, [
