@@ -1,13 +1,37 @@
-# Mantis UI - Component Library & Showcase
+# 🦎 Mantis UI
 
-A powerful and lightweight React component library designed for building beautiful internal websites with minimal effort.
+[![npm version](https://img.shields.io/npm/v/@neovantis/mantisui.svg)](https://www.npmjs.com/package/@neovantis/mantisui)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue.svg)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-## 🚀 Project Structure
+**A powerful and lightweight React UI component library for internal dashboards and business applications**
 
+## 📦 Quick Links
+
+- **📚 [Full Documentation](./mantis-ui/README.md)**
+- **📦 [NPM Package](https://www.npmjs.com/package/@neovantis/mantisui)**
+- **🎮 [Live Demo](https://neovantis.github.io/mantis)**
+- **🐛 [Report Issues](https://github.com/NeoVantis/mantis/issues)**
+
+## 🚀 Quick Start
+
+```bash
+npm install @neovantis/mantisui
 ```
-mantis/
-├── mantis-ui/              # Component Library
-│   ├── src/
+
+```tsx
+import { Button, Card, Table, Sidebar } from '@neovantis/mantisui';
+import '@neovantis/mantisui/styles';
+
+function App() {
+  return (
+    <Card variant="elevated">
+      <h1>Welcome to Mantis UI</h1>
+      <Button variant="primary">Get Started</Button>
+    </Card>
+  );
+}
+```
 │   │   ├── components/     # React Components
 │   │   │   ├── Button/     # Button component with variants & states
 │   │   │   ├── Card/       # Flexible card containers

@@ -1,0 +1,38 @@
+# For most projects, this workflow file will not need changing; you simply need
+# to commit it to your repository.
+
+name: 📦 Package Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          registry-url: 'https://registry.npmjs.org'
+          
+      - name: Install dependencies
+        run: |
+          cd mantis-ui
+          npm ci
+          
+      - name: Build package
+        run: |
+          cd mantis-ui
+          npm run build
+          
+      - name: Publish to npm
+        run: |
+          cd mantis-ui
+          npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

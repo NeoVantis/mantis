@@ -1,0 +1,19 @@
+name: 🦎 Mantis UI
+description: A powerful and lightweight React UI component library for internal dashboards and business applications
+
+topics:
+  - react
+  - ui
+  - components
+  - typescript
+  - design-system
+  - dashboard
+  - internal-tools
+  - neovantis
+  - component-library
+  - enterprise
+
+social:
+  twitter: neovantis
+
+homepage: https://www.npmjs.com/package/@neovantis/mantisui
