@@ -1,44 +1,76 @@
 {
-  "name": "mantis-ui",
-  "version": "1.0.0",
-  "description": "A powerful UI component library for internal websites",
+  "name": "@neovantis/mantisui",
+  "version": "1.0.1",
+  "description": "A powerful and lightweight React UI component library for internal dashboards and business applications",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./styles": "./dist/index.css",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
+    "clean": "rm -rf dist",
+    "prepublishOnly": "npm run clean && npm run build",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },
   "keywords": [
+    "react",
     "ui",
     "components",
-    "react",
-    "mantis"
+    "typescript",
+    "dashboard",
+    "internal-tools",
+    "design-system",
+    "neovantis",
+    "mantis",
+    "enterprise"
   ],
   "author": "NeoVantis",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeoVantis/mantis.git",
+    "directory": "mantis-ui"
+  },
+  "homepage": "https://github.com/NeoVantis/mantis/tree/main/mantis-ui",
+  "bugs": {
+    "url": "https://github.com/NeoVantis/mantis/issues"
+  },
+  "engines": {
+    "node": ">=16"
+  },
   "peerDependencies": {
     "react": "^18.0.0",
     "react-dom": "^18.0.0"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.1.12",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.5.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "rollup": "^3.29.0",
     "rollup-plugin-postcss": "^4.0.2",
     "rollup-plugin-typescript2": "^0.36.0",
-    "tailwindcss": "^3.4.17",
     "typescript": "^5.0.0"
   },
   "files": [
-    "dist"
-  ]
+    "dist",
+    "README.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  }
 }

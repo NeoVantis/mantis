@@ -1,184 +1,217 @@
-# Mantis UI
+# 🦎 Mantis UI
 
-A powerful and lightweight React component library designed for building internal websites with minimal effort.
+> **A powerful and lightweight React component library built for internal dashboards and business applications**
 
-## Features
+[![npm version](https://img.shields.io/npm/v/@neovantis/mantisui.svg)](https://www.npmjs.com/package/@neovantis/mantisui)
+[![TypeScript](https://img.shields.io/badge/TypeScript-ready-blue.svg)](https://www.typescriptlang.org/)
+[![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/@neovantis/mantisui)](https://bundlephobia.com/package/@neovantis/mantisui)
 
-- 🎨 **Beautiful Components**: Pre-designed components with modern aesthetics
-- 🎯 **TypeScript Support**: Full TypeScript support with comprehensive type definitions
-- 🎨 **Customizable**: Easy to customize with CSS variables
-- 📱 **Responsive**: Mobile-first responsive design
-- ⚡ **Lightweight**: Minimal bundle size with tree-shaking support
-- 🎭 **Animations**: Built-in animations and transitions
+---
 
-## Components
+## ✨ Why Mantis UI?
 
-### Core Components
+Built by **NeoVantis** for the modern web, Mantis UI delivers production-ready components that help you build stunning internal tools and dashboards **fast**. No bloat, no complexity – just beautiful, accessible components that work.
 
-- **Button** - Versatile button component with multiple variants and states
-- **Card** - Flexible container component with header/footer support
-- **Sidebar** - Collapsible navigation sidebar with nested menu support
-- **Table** - Feature-rich data table with sorting and custom rendering
-- **Animation** - Wrapper component for adding smooth animations
-
-## Installation
+### 🚀 **Quick Start**
 
 ```bash
-npm install mantis-ui
+npm install @neovantis/mantisui
 ```
 
-## Quick Start
-
 ```tsx
-import React from 'react';
-import { Button, Card } from 'mantis-ui';
+import { Button, Card, Table, Sidebar } from '@neovantis/mantisui';
+import '@neovantis/mantisui/styles';
 
-function App() {
+function Dashboard() {
   return (
-    <Card>
-      <h2>Welcome to Mantis UI</h2>
-      <Button variant="primary">Get Started</Button>
-    </Card>
+    <div className="dashboard">
+      <Sidebar items={navItems} collapsible />
+      <main>
+        <Card variant="elevated">
+          <h1>Revenue Overview</h1>
+          <Table columns={columns} dataSource={salesData} />
+          <Button variant="primary" size="lg">
+            Generate Report
+          </Button>
+        </Card>
+      </main>
+    </div>
   );
 }
-
-export default App;
 ```
 
-## Documentation
+---
 
-### Button
+## 🎯 **What's Inside**
 
+### **🔘 Buttons** - *6 variants, 3 sizes, icons, loading states*
 ```tsx
-import { Button } from 'mantis-ui';
-
-// Basic usage
-<Button variant="primary">Click me</Button>
-
-// With loading state
-<Button loading={isLoading}>Submit</Button>
-
-// Different sizes
-<Button size="sm">Small</Button>
-<Button size="md">Medium</Button>
-<Button size="lg">Large</Button>
+<Button variant="primary" loading={isSubmitting}>
+  Save Changes
+</Button>
+<Button variant="ghost" icon={<DownloadIcon />}>
+  Export Data
+</Button>
 ```
 
-### Card
-
+### **📄 Cards** - *Flexible containers with headers, footers, variants*
 ```tsx
-import { Card } from 'mantis-ui';
-
-// Basic card
-<Card>
-  <h3>Card Title</h3>
-  <p>Card content goes here.</p>
-</Card>
-
-// Card with header and footer
-<Card 
-  header={<h3>Header</h3>}
-  footer={<Button>Action</Button>}
->
-  Card content
+<Card variant="elevated" header="User Analytics">
+  <StatGrid data={metrics} />
 </Card>
 ```
 
-### Sidebar
-
+### **📊 Tables** - *Sortable, customizable, responsive data tables*
 ```tsx
-import { Sidebar } from 'mantis-ui';
-
-const items = [
-  {
-    id: 'dashboard',
-    label: 'Dashboard',
-    icon: <DashboardIcon />,
-    isActive: true
-  },
-  {
-    id: 'settings',
-    label: 'Settings',
-    icon: <SettingsIcon />
-  }
-];
-
-<Sidebar 
-  items={items}
-  collapsible
-  header={<h2>My App</h2>}
+<Table 
+  columns={[
+    { key: 'name', title: 'Employee', dataIndex: 'name', sortable: true },
+    { key: 'status', title: 'Status', render: (status) => <StatusBadge status={status} /> }
+  ]}
+  dataSource={employees}
+  onRowClick={(record) => openProfile(record.id)}
 />
 ```
 
-### Table
-
+### **📑 Sidebar** - *Collapsible navigation with nested menus*
 ```tsx
-import { Table } from 'mantis-ui';
-
-const columns = [
-  {
-    key: 'name',
-    title: 'Name',
-    dataIndex: 'name'
-  },
-  {
-    key: 'age',
-    title: 'Age',
-    dataIndex: 'age'
-  }
-];
-
-const data = [
-  { id: 1, name: 'John', age: 30 },
-  { id: 2, name: 'Jane', age: 25 }
-];
-
-<Table columns={columns} dataSource={data} />
+<Sidebar 
+  items={navigationItems}
+  collapsible 
+  header={<Logo />}
+  footer={<UserProfile />}
+/>
 ```
 
-### Animation
-
+### **✨ Animations** - *Smooth, performant CSS animations*
 ```tsx
-import { Animation } from 'mantis-ui';
-
-// Fade in animation
-<Animation type="fadeIn">
-  <div>This will fade in</div>
-</Animation>
-
-// Trigger on scroll
-<Animation type="slideInUp" triggerOnScroll>
-  <Card>This will slide up when scrolled into view</Card>
+<Animation type="fadeInUp" triggerOnScroll>
+  <MetricsCard />
 </Animation>
 ```
 
-## Customization
+---
 
-Mantis UI uses CSS variables for easy customization. Override these variables in your CSS:
+## 🎨 **Design System**
+
+Mantis UI follows a cohesive design language with:
+
+- **🎯 Consistent spacing** - 8px grid system
+- **🌈 Smart color palette** - Primary, secondary, success, warning, error variants
+- **📱 Mobile-first** - Responsive by default
+- **♿ Accessible** - WCAG 2.1 AA compliant
+- **🎭 Smooth animations** - Subtle, performant transitions
+
+### **Customization Made Easy**
 
 ```css
 :root {
-  --mantis-primary: #your-primary-color;
-  --mantis-secondary: #your-secondary-color;
-  --mantis-font-family: 'Your Font Family';
+  --mantis-primary: #3b82f6;
+  --mantis-radius: 8px;
+  --mantis-font-family: 'Inter', sans-serif;
+  --mantis-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 ```
 
-## Browser Support
+---
 
-- Chrome (latest)
-- Firefox (latest)
-- Safari (latest)
-- Edge (latest)
+## 📦 **Real-World Example**
 
-## Contributing
+Here's how companies use Mantis UI to build internal tools:
 
-We welcome contributions! Please see our contributing guidelines for more details.
+```tsx
+function EmployeeDashboard() {
+  const [employees, setEmployees] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-## License
+  const columns = [
+    { 
+      key: 'name', 
+      title: 'Employee', 
+      dataIndex: 'name',
+      sortable: true 
+    },
+    { 
+      key: 'department', 
+      title: 'Department', 
+      dataIndex: 'department' 
+    },
+    {
+      key: 'status',
+      title: 'Status',
+      dataIndex: 'status',
+      render: (status) => (
+        <span className={`status status--${status.toLowerCase()}`}>
+          {status}
+        </span>
+      )
+    }
+  ];
 
-MIT License - see LICENSE file for details.
+  return (
+    <div className="app">
+      <Sidebar 
+        items={[
+          { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+          { id: 'employees', label: 'Employees', icon: '👥', isActive: true },
+          { id: 'reports', label: 'Reports', icon: '📈' }
+        ]}
+        collapsible
+      />
+      
+      <main className="main-content">
+        <Card variant="elevated">
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h1>Employee Directory</h1>
+            <Button variant="primary" icon="+" loading={loading}>
+              Add Employee
+            </Button>
+          </div>
+          
+          <Table 
+            columns={columns}
+            dataSource={employees}
+            onRowClick={(employee) => openEmployeeProfile(employee.id)}
+          />
+        </Card>
+      </main>
+    </div>
+  );
+}
+```
 
-## Support
+---
 
-For support and questions, please reach out to the NeoVantis team.
+## 🏗️ **Architecture**
+
+- **⚡ Tree-shakeable** - Import only what you need
+- **📦 Tiny bundle** - <30kb gzipped for the full library
+- **🔧 TypeScript** - Complete type definitions included
+- **🎨 CSS Variables** - Easy theming without build tools
+- **📱 Responsive** - Works beautifully on all devices
+
+---
+
+## 🌟 **Community**
+
+- **🐛 Issues**: [GitHub Issues](https://github.com/NeoVantis/mantis/issues)
+- **💡 Feature Requests**: [GitHub Discussions](https://github.com/NeoVantis/mantis/discussions)
+- **📖 Documentation**: [Full Docs](https://neovantis.github.io/mantis)
+- **💬 Support**: [NeoVantis Team](mailto:support@neovantis.com)
+
+---
+
+## 📄 **License**
+
+MIT © [NeoVantis](https://github.com/NeoVantis)
+
+---
+
+<div align="center">
+
+**Built with ❤️ by the NeoVantis team**
+
+[⭐ Star on GitHub](https://github.com/NeoVantis/mantis) • [📦 View on npm](https://www.npmjs.com/package/@neovantis/mantisui) • [🔗 Visit NeoVantis](https://neovantis.com)
+
+</div>

@@ -1,0 +1,31 @@
+{
+  "name": "mantis",
+  "private": true,
+  "description": "Mantis UI - React Component Library Monorepo",
+  "workspaces": [
+    "mantis-ui",
+    "webapp"
+  ],
+  "scripts": {
+    "build:library": "cd mantis-ui && npm run build",
+    "build:webapp": "cd webapp && npm run build",
+    "build:all": "npm run build:library && npm run build:webapp",
+    "dev:library": "cd mantis-ui && npm run dev",
+    "dev:webapp": "cd webapp && npm run dev",
+    "publish:library": "cd mantis-ui && npm publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NeoVantis/mantis.git"
+  },
+  "author": "NeoVantis",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "ui",
+    "components",
+    "typescript",
+    "monorepo",
+    "design-system"
+  ]
+}
