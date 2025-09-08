@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 interface NavLink {
   name: string;
@@ -51,6 +51,16 @@ type NavbarItem =
   | { type: 'navlink'; position: 'left' | 'center' | 'right'; priority: number; data: NavLink; }
   | { type: 'primaryButton'; position: 'left' | 'center' | 'right'; priority: number; data: PrimaryButtonData; }
   | { type: 'secondaryButton'; position: 'left' | 'center' | 'right'; priority: number; data: SecondaryButtonData; };
+
+// Helper function to validate URL
+const isValidUrl = (href: string): boolean => {
+  try {
+    new URL(href);
+    return true;
+  } catch {
+    return false;
+  }
+};
 
 // Helper function to collect and group navbar items
 const groupNavbarItems = (props: NavbarProps): Record<'left' | 'center' | 'right', NavbarItem[]> => {
@@ -163,6 +173,91 @@ const HamburgerIcon = ({ isOpen, className = "bg-gray-300" }: HamburgerIconProps
   </div>
 )
 
+// Render functions for each item type
+const renderLogo = (item: NavbarItem, isMobile: boolean, handleClick: (item: NavbarItem, e?: React.MouseEvent) => void) => {
+  if (item.type !== 'logo') return null;
+  return (
+    <a
+      key={`logo-${item.priority}`}
+      href={item.data.href && isValidUrl(item.data.href) ? item.data.href : "#"}
+      onClick={(e) => handleClick(item, e)}
+      className={`text-xl font-bold tracking-tight hover:scale-105 transition-transform ${item.data.className || ''}`}
+    >
+      {item.data.text}
+    </a>
+  );
+};
+
+const renderNavLink = (item: NavbarItem, isMobile: boolean, handleClick: (item: NavbarItem, e?: React.MouseEvent) => void) => {
+  if (item.type !== 'navlink') return null;
+  return (
+    <a
+      key={`navlink-${item.data.name}-${item.priority}`}
+      href={item.data.href && isValidUrl(item.data.href) ? item.data.href : "#"}
+      onClick={(e) => handleClick(item, e)}
+      className={`text-base font-semibold transition-colors duration-300 cursor-pointer ${isMobile ? 'block text-lg py-3 px-4 rounded-lg' : ''} ${item.data.className || ''}`}
+    >
+      {item.data.name}
+    </a>
+  );
+};
+
+const renderPrimaryButton = (item: NavbarItem, isMobile: boolean, handleClick: (item: NavbarItem, e?: React.MouseEvent) => void) => {
+  if (item.type !== 'primaryButton') return null;
+  if (isMobile) {
+    return (
+      <a
+        key={`primary-${item.priority}`}
+        href={item.data.href && isValidUrl(item.data.href) ? item.data.href : "#"}
+        onClick={() => handleClick(item)}
+        className={`flex items-center justify-center w-full px-6 py-3 text-sm font-medium rounded-full transition-all duration-300 ${item.data.className || ''}`}
+      >
+        {item.data.text}
+      </a>
+    );
+  }
+  return (
+    <Button
+      key={`primary-${item.priority}`}
+      asChild
+      href={item.data.href && isValidUrl(item.data.href) ? item.data.href : "#"}
+      onClick={() => handleClick(item)}
+      className={item.data.className}
+    >
+      {item.data.text}
+    </Button>
+  );
+};
+
+const renderSecondaryButton = (item: NavbarItem, isMobile: boolean, handleClick: (item: NavbarItem, e?: React.MouseEvent) => void) => {
+  if (item.type !== 'secondaryButton') return null;
+  if (isMobile) {
+    return (
+      <a
+        key={`secondary-${item.priority}`}
+        href={item.data.href && isValidUrl(item.data.href) ? item.data.href : "#"}
+        onClick={() => handleClick(item)}
+        className={`flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-medium rounded-full transition-all duration-300 ${item.data.className || ''}`}
+      >
+        {item.data.text}
+      </a>
+    );
+  }
+  return (
+    <Button
+      key={`secondary-${item.priority}`}
+      asChild
+      href={item.data.href && isValidUrl(item.data.href) ? item.data.href : "#"}
+      onClick={() => handleClick(item)}
+      className={item.data.className}
+    >
+      <>
+        {item.data.text}
+      </>
+    </Button>
+  );
+};
+
 export default function Navbar({
   navLinks,
   logo,
@@ -174,9 +269,49 @@ export default function Navbar({
   mobileMenuClassName
 }: NavbarProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+  const menuRef = useRef<HTMLDivElement>(null)
+  const toggleButtonRef = useRef<HTMLButtonElement>(null)
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
   const closeMenu = () => setIsMenuOpen(false)
+
+  // Handle keyboard navigation in mobile menu
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Escape') {
+      closeMenu();
+    } else if (e.key === 'Tab') {
+      const focusableElements = menuRef.current?.querySelectorAll('a, button');
+      if (focusableElements && focusableElements.length > 0) {
+        const first = focusableElements[0] as HTMLElement;
+        const last = focusableElements[focusableElements.length - 1] as HTMLElement;
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+      }
+    }
+  }
+
+  // Focus management for mobile menu
+  useEffect(() => {
+    if (isMenuOpen) {
+      // Focus the first item in the menu
+      const firstItem = menuRef.current?.querySelector('a, button')
+      if (firstItem) {
+        ;(firstItem as HTMLElement).focus()
+      }
+    } else {
+      // Return focus to toggle button
+      toggleButtonRef.current?.focus()
+    }
+  }, [isMenuOpen])
 
   // Unified click handler
   const handleClick = (item: NavbarItem, e?: React.MouseEvent) => {
@@ -205,77 +340,13 @@ export default function Navbar({
   const renderItem = (item: NavbarItem, isMobile = false) => {
     switch (item.type) {
       case 'logo':
-        return (
-          <a
-            key={`logo-${item.priority}`}
-            href={item.data.href || "#"}
-            onClick={(e) => handleClick(item, e)}
-            className={`text-xl font-bold tracking-tight hover:scale-105 transition-transform ${item.data.className || ''}`}
-          >
-            {item.data.text}
-          </a>
-        )
+        return renderLogo(item, isMobile, handleClick)
       case 'navlink':
-        return (
-          <a
-            key={`navlink-${item.data.name}-${item.priority}`}
-            href={item.data.href || "#"}
-            onClick={(e) => handleClick(item, e)}
-            className={`text-base font-semibold transition-colors duration-300 cursor-pointer ${isMobile ? 'block text-lg py-3 px-4 rounded-lg' : ''} ${item.data.className || ''}`}
-          >
-            {item.data.name}
-          </a>
-        )
+        return renderNavLink(item, isMobile, handleClick)
       case 'primaryButton':
-        if (isMobile) {
-          return (
-            <a
-              key={`primary-${item.priority}`}
-              href={item.data.href || "#"}
-              onClick={() => handleClick(item)}
-              className={`flex items-center justify-center w-full px-6 py-3 text-sm font-medium rounded-full transition-all duration-300 ${item.data.className || ''}`}
-            >
-              {item.data.text}
-            </a>
-          )
-        }
-        return (
-          <Button
-            key={`primary-${item.priority}`}
-            asChild
-            href={item.data.href}
-            onClick={() => handleClick(item)}
-            className={item.data.className}
-          >
-            {item.data.text}
-          </Button>
-        )
+        return renderPrimaryButton(item, isMobile, handleClick)
       case 'secondaryButton':
-        if (isMobile) {
-          return (
-            <a
-              key={`secondary-${item.priority}`}
-              href={item.data.href || "#"}
-              onClick={() => handleClick(item)}
-              className={`flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-medium rounded-full transition-all duration-300 ${item.data.className || ''}`}
-            >
-              {item.data.text}
-            </a>
-          )
-        }
-        return (
-          <Button
-            key={`secondary-${item.priority}`}
-            asChild
-            href={item.data.href}
-            onClick={() => handleClick(item)}
-            className={item.data.className}
-          >
-            <>
-              {item.data.text}
-            </>
-          </Button>
-        )
+        return renderSecondaryButton(item, isMobile, handleClick)
       default:
         return null
     }
@@ -310,6 +381,7 @@ export default function Navbar({
             {/* Mobile Menu Button */}
             {hasMobileItems && (
               <button
+                ref={toggleButtonRef}
                 onClick={toggleMenu}
                 className="lg:hidden p-2 rounded-full transition-colors"
                 aria-label="Toggle menu"
@@ -322,7 +394,11 @@ export default function Navbar({
 
         {/* Mobile Menu */}
         {isMenuOpen && hasMobileItems && (
-          <div className="lg:hidden absolute top-full left-0 right-0 mt-2 animate-slide-down">
+          <div
+            ref={menuRef}
+            onKeyDown={handleKeyDown}
+            className="lg:hidden absolute top-full left-0 right-0 mt-2 animate-slide-down"
+          >
             <div className={`bg-white/70 backdrop-blur-xl rounded-2xl border border-white/30 shadow-2xl p-6 mx-auto ${width} ${mobileMenuClassName || ''}`}>
               {/* Mobile Items - sorted by position and priority, excluding logo */}
               <div className="space-y-1">
