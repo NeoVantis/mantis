@@ -8,44 +8,49 @@ interface NavLink {
   className?: string;
 }
 
+interface LogoData {
+  text: string;
+  href?: string;
+  onClick?: () => void;
+  position?: 'left' | 'center' | 'right';
+  priority?: number;
+  className?: string;
+}
+
+interface PrimaryButtonData {
+  text: string;
+  href?: string;
+  onClick?: () => void;
+  className?: string;
+  position?: 'left' | 'center' | 'right';
+  priority?: number;
+}
+
+interface SecondaryButtonData {
+  text: string;
+  href?: string;
+  onClick?: () => void;
+  className?: string;
+  position?: 'left' | 'center' | 'right';
+  priority?: number;
+}
+
 export interface NavbarProps {
   navLinks?: NavLink[];
-  logo?: {
-    text: string;
-    href?: string;
-    onClick?: () => void;
-    position?: 'left' | 'center' | 'right';
-    priority?: number;
-    className?: string;
-  };
-  primaryButton?: {
-    text: string;
-    href?: string;
-    onClick?: () => void;
-    className?: string;
-    position?: 'left' | 'center' | 'right';
-    priority?: number;
-  };
-  secondaryButton?: {
-    text: string;
-    href?: string;
-    onClick?: () => void;
-    className?: string;
-    position?: 'left' | 'center' | 'right';
-    priority?: number;
-  };
+  logo?: LogoData;
+  primaryButton?: PrimaryButtonData;
+  secondaryButton?: SecondaryButtonData;
   className?: string;
   height?: string;
   width?: string;
   mobileMenuClassName?: string;
 }
 
-type NavbarItem = {
-  type: 'logo' | 'navlink' | 'primaryButton' | 'secondaryButton';
-  position: 'left' | 'center' | 'right';
-  priority: number;
-  data: any; // To hold the specific props
-};
+type NavbarItem = 
+  | { type: 'logo'; position: 'left' | 'center' | 'right'; priority: number; data: LogoData; }
+  | { type: 'navlink'; position: 'left' | 'center' | 'right'; priority: number; data: NavLink; }
+  | { type: 'primaryButton'; position: 'left' | 'center' | 'right'; priority: number; data: PrimaryButtonData; }
+  | { type: 'secondaryButton'; position: 'left' | 'center' | 'right'; priority: number; data: SecondaryButtonData; };
 
 // Helper function to collect and group navbar items
 const groupNavbarItems = (props: NavbarProps): Record<'left' | 'center' | 'right', NavbarItem[]> => {
@@ -123,9 +128,10 @@ interface ButtonProps {
 
 const Button = ({ asChild, children, className, href = "#", onClick }: ButtonProps) => {
   const Comp = asChild ? "a" : "button"
+  const props = Comp === "a" ? { href } : {}
   return (
     <Comp
-      href={href}
+      {...props}
       onClick={onClick}
       className={`inline-flex items-center justify-center gap-2 px-6 py-2.5 text-sm font-medium rounded-full transition-all duration-300 ${className || ''}`}
     >
@@ -253,7 +259,6 @@ export default function Navbar({
               onClick={() => handleClick(item)}
               className={`flex items-center justify-center gap-2 w-full px-6 py-3 text-sm font-medium rounded-full transition-all duration-300 ${item.data.className || ''}`}
             >
-              <span className="inline-block w-2 h-2 rounded-full" />
               {item.data.text}
             </a>
           )
@@ -267,7 +272,6 @@ export default function Navbar({
             className={item.data.className}
           >
             <>
-              <span className="inline-block w-2 h-2 bg-emerald-400 rounded-full" />
               {item.data.text}
             </>
           </Button>
