@@ -17,3 +17,7 @@ export {
   TableDemo, 
   TableConfig 
 } from './TablePage';
+
+export { 
+  NavbarPage 
+} from './NavbarPage';
