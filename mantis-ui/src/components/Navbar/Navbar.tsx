@@ -320,9 +320,11 @@ export default function Navbar({
         {isMenuOpen && hasMobileItems && (
           <div className="lg:hidden absolute top-full left-0 right-0 mt-2 animate-slide-down">
             <div className={`bg-white/70 backdrop-blur-xl rounded-2xl border border-white/30 shadow-2xl p-6 mx-auto ${width} ${mobileMenuClassName || ''}`}>
-              {/* Mobile Items - sorted by position and priority */}
+              {/* Mobile Items - sorted by position and priority, excluding logo */}
               <div className="space-y-1">
-                {[...groupedItems.left, ...groupedItems.center, ...groupedItems.right].map(item => renderItem(item, true))}
+                {[...groupedItems.left, ...groupedItems.center, ...groupedItems.right]
+                  .filter(item => item.type !== 'logo')
+                  .map(item => renderItem(item, true))}
               </div>
             </div>
           </div>
