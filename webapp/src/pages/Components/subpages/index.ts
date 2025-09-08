@@ -1,19 +1,23 @@
-export { 
-  ButtonPage, 
-  ButtonVariants, 
-  ButtonSizes, 
-  ButtonIcons, 
-  ButtonExamples 
-} from './ButtonPage';
+export {
+  ButtonPage,
+  ButtonVariants,
+  ButtonSizes,
+  ButtonIcons,
+  ButtonExamples
+} from './ButtonPage/index';
 
-export { 
-  CardPage, 
-  CardVariants, 
-  CardExamples 
-} from './CardPage';
+export {
+  CardPage,
+  CardVariants,
+  CardExamples
+} from './CardPage/index';
 
-export { 
-  TablePage, 
-  TableDemo, 
-  TableConfig 
-} from './TablePage';
+export {
+  TablePage,
+  TableDemo,
+  TableConfig
+} from './TablePage/index';
+
+export {
+  NavbarPage
+} from './NavbarPage/index';

@@ -47,6 +47,11 @@ const getSidebarItems = (handleClick: (id: string) => void, currentPage: string)
         label: 'Tables',
         onClick: () => handleClick('tables')
       },
+      { 
+        id: 'navbar', 
+        label: 'Navbar',
+        onClick: () => handleClick('navbar')
+      },
     ],
   },
   {

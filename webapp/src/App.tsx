@@ -1,6 +1,6 @@
 import { MainLayout } from './components/layout';
 import { Dashboard } from './pages/Dashboard';
-import { ButtonPage, CardPage, TablePage } from './pages/Components';
+import { ButtonPage, CardPage, TablePage, NavbarPage } from './pages/Components';
 import { AnimationsPage } from './pages/Animations';
 import { SettingsPage } from './pages/Settings';
 import { useAnimationReset, usePageNavigation, useButtonLoading } from './hooks';
@@ -27,6 +27,9 @@ function App() {
 
       case 'tables':
         return <TablePage />;
+
+      case 'navbar':
+        return <NavbarPage />;
 
       case 'animations':
         return <AnimationsPage animationKeys={animationKeys} resetAnimations={resetAnimations} />;

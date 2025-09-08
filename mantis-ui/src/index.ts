@@ -1,4 +1,5 @@
 // Components
+export { default as Navbar } from './components/Navbar';
 export { Button } from './components/Button';
 export { Card } from './components/Card';
 export { Sidebar } from './components/Sidebar';
@@ -24,6 +25,7 @@ export {
 // Types
 export type { ButtonProps } from './components/Button';
 export type { CardProps } from './components/Card';
+export type { NavbarProps } from './components/Navbar/Navbar';
 export type { SidebarProps, SidebarItem } from './components/Sidebar';
 export type { TableProps, TableColumn } from './components/Table';
 export type {
